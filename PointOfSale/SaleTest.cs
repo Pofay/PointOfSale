@@ -7,7 +7,7 @@ using Xunit;
 
 namespace PointOfSale.Domain
 {
-    public class OrderTest
+    public class SaleTest
     {
 
         [Theory]
