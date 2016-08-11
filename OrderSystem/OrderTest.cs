@@ -38,10 +38,7 @@ namespace OrderSystem.Domain
             var sut = new Sale(itemRepo);
 
             // Act
-            foreach (var barcode in barcodes)
-            {
-                sut.OnBarcode(barcode);
-            }
+            barcodes.ToList().ForEach(barcode => sut.OnBarcode(barcode));
 
             // Assert
             decimal expected = new decimal(totalPrice);
