@@ -58,9 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemRepository.cs" />
-    <Compile Include="OrderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sale.cs" />
+    <Compile Include="SaleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
