@@ -7,8 +7,8 @@
     <ProjectGuid>{C5E40D39-8841-42CC-AAE4-CD5358355A1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrderSystem.Core</RootNamespace>
-    <AssemblyName>OrderSystem</AssemblyName>
+    <RootNamespace>PointOfSale.Domain</RootNamespace>
+    <AssemblyName>PointOfSale</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

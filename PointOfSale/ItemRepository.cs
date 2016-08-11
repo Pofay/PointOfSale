@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace OrderSystem.Domain
+namespace PointOfSale.Domain
 {
 
     public class ItemRepository
