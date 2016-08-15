@@ -17,7 +17,7 @@ namespace PointOfSale.Domain
 		public void GetTotalPriceForOneItemOnSaleReturnsCorrectResult(string barcode, double price)
 		{
 			// Arrange
-			var itemRepo = new ItemRepository();
+			var itemRepo = new ItemRegistry();
 			var sut = new Sale(itemRepo);
 
 			// Act
@@ -34,7 +34,7 @@ namespace PointOfSale.Domain
 		public void GetTotalPriceForTwoItemsOnSaleReturnsTotalPrice(string[] barcodes, double totalPrice)
 		{
 			// Arrange
-			var itemRepo = new ItemRepository();
+			var itemRepo = new ItemRegistry();
 			var sut = new Sale(itemRepo);
 
 			// Act
@@ -50,7 +50,7 @@ namespace PointOfSale.Domain
 		public void GetTotalPriceOnEmptyBarcodeReturns0Price()
 		{
 			// Arrange
-			var itemRepo = new ItemRepository();
+			var itemRepo = new ItemRegistry();
 			var sut = new Sale(itemRepo);
 			// Act
 			sut.OnBarcode("");
@@ -64,7 +64,7 @@ namespace PointOfSale.Domain
 		[InlineData(new object[] { "789010", "345670" }, new object[] { "Fish", "Plunger" })]
 		public void SaleStoresItemNameOfAssociatedBarcode(string[] barcodes, string[] expected)
 		{
-			var itemRepo = new ItemRepository();
+			var itemRepo = new ItemRegistry();
 			var sut = new Sale(itemRepo);
 
 			foreach (var barcode in barcodes)

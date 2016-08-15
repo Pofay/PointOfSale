@@ -12,13 +12,13 @@ namespace PointOfSale.Domain
 	{
 		private readonly List<string> itemNames;
 		private decimal totalPrice;
-		private readonly ItemRepository repo;
+		private readonly ItemRegistry repo;
 
 
 		public decimal TotalPrice { get { return totalPrice; } }
 		public IEnumerable<string> ItemNames { get { return itemNames.ToArray(); } }
 
-		public Sale(ItemRepository repo)
+		public Sale(ItemRegistry repo)
 		{
 			this.repo = repo;
 			this.itemNames = new List<string>();
@@ -27,9 +27,9 @@ namespace PointOfSale.Domain
 
 		public void OnBarcode(string barcode)
 		{
-			totalPrice = decimal.Add(totalPrice, repo.getPriceFor(barcode));
-			var itemName = repo.getItemNameFor(barcode);
-			itemNames.Add(itemName);
+			var item = repo.getItemWith(barcode);
+			totalPrice = decimal.Add(totalPrice, item.Price);
+			itemNames.Add(item.Name);
 		}
 
 

@@ -23,14 +23,9 @@ namespace PointOfSale.Domain
 			items.Add("789010", new Item("789010", "Fish", 10.25));
 		}
 
-		public decimal getPriceFor(string barcode)
+		public Item getItemWith(string barcode)
 		{
-			return items.ContainsKey(barcode) ? items[barcode].Price : new decimal(0.0);
-		}
-
-		public string getNameFor(string barcode)
-		{
-			return items.ContainsKey(barcode) ? items[barcode].Name : "";
+			return items.ContainsKey(barcode) ? items[barcode] : new Item("", "Unknown", 0.0);
 		}
 
 	}
