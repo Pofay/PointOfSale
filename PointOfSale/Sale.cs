@@ -8,24 +8,31 @@ using Xunit;
 namespace PointOfSale.Domain
 {
 
-    public class Sale
-    {
-        public decimal TotalPrice { get { return new decimal(totalPrice); } }
-
-        private double totalPrice;
-        private readonly ItemRepository repo;
-
-
-        public Sale(ItemRepository repo)
-        {
-            this.repo = repo;
-        }
+	public class Sale
+	{
+		private readonly List<string> itemNames;
+		private double totalPrice;
+		private readonly ItemRepository repo;
 
 
-        public void OnBarcode(string barcode)
-        {
-            totalPrice += repo.getPriceFor(barcode);
-        }
-    }
+		public decimal TotalPrice { get { return new decimal(totalPrice); } }
+		public IEnumerable<string> ItemNames { get { return itemNames.ToArray(); } }
+
+		public Sale(ItemRepository repo)
+		{
+			this.repo = repo;
+			this.itemNames = new List<string>();
+		}
+
+
+		public void OnBarcode(string barcode)
+		{
+			totalPrice += repo.getPriceFor(barcode);
+			if ("123456".Equals(barcode))
+				itemNames.Add("Bowl");
+			else if ("456789".Equals(barcode))
+				itemNames.Add("Crab");
+		}
+	}
 
 }

@@ -7,57 +7,70 @@ using Xunit;
 
 namespace PointOfSale.Domain
 {
-    public class SaleTest
-    {
+	public class SaleTest
+	{
 
-        [Theory]
-        [InlineData("123456", 12.50)]
-        [InlineData("456789", 24.50)]
-        [InlineData("900000", 7.50)]
-        public void GetTotalPriceForOneItemOnSaleReturnsCorrectResult(string barcode, double price)
-        {
-            // Arrange
-            var itemRepo = new ItemRepository();
-            var sut = new Sale(itemRepo);
+		[Theory]
+		[InlineData("123456", 12.50)]
+		[InlineData("456789", 24.50)]
+		[InlineData("900000", 7.50)]
+		public void GetTotalPriceForOneItemOnSaleReturnsCorrectResult(string barcode, double price)
+		{
+			// Arrange
+			var itemRepo = new ItemRepository();
+			var sut = new Sale(itemRepo);
 
-            // Act
-            sut.OnBarcode(barcode);
+			// Act
+			sut.OnBarcode(barcode);
 
-            // Assert
-            decimal expected = new decimal(price);
-            Assert.Equal(expected, sut.TotalPrice);
-        }
-
-
-        [Theory]
-        [InlineData(new string[2] { "123456", "456789" }, 37.00)]
-        public void GetTotalPriceForTwoItemsOnSaleReturnsTotalPrice(string[] barcodes, double totalPrice)
-        {
-            // Arrange
-            var itemRepo = new ItemRepository();
-            var sut = new Sale(itemRepo);
-
-            // Act
-            barcodes.ToList().ForEach(barcode => sut.OnBarcode(barcode));
-
-            // Assert
-            decimal expected = new decimal(totalPrice);
-            Assert.Equal(expected, sut.TotalPrice);
-        }
+			// Assert
+			decimal expected = new decimal(price);
+			Assert.Equal(expected, sut.TotalPrice);
+		}
 
 
-        [Fact]
-        public void GetTotalPriceOnEmptyBarcodeReturns0Price()
-        {
-            // Arrange
-            var itemRepo = new ItemRepository();
-            var sut = new Sale(itemRepo);
-            // Act
-            sut.OnBarcode("");
-            // Assert
-            decimal expected = new decimal(0);
-            Assert.Equal(expected, sut.TotalPrice);
-        }
-    }
+		[Theory]
+		[InlineData(new string[2] { "123456", "456789" }, 37.00)]
+		public void GetTotalPriceForTwoItemsOnSaleReturnsTotalPrice(string[] barcodes, double totalPrice)
+		{
+			// Arrange
+			var itemRepo = new ItemRepository();
+			var sut = new Sale(itemRepo);
+
+			// Act
+			barcodes.ToList().ForEach(barcode => sut.OnBarcode(barcode));
+
+			// Assert
+			decimal expected = new decimal(totalPrice);
+			Assert.Equal(expected, sut.TotalPrice);
+		}
+
+
+		[Fact]
+		public void GetTotalPriceOnEmptyBarcodeReturns0Price()
+		{
+			// Arrange
+			var itemRepo = new ItemRepository();
+			var sut = new Sale(itemRepo);
+			// Act
+			sut.OnBarcode("");
+			// Assert
+			decimal expected = new decimal(0);
+			Assert.Equal(expected, sut.TotalPrice);
+		}
+
+		[Fact]
+		public void SaleStoresItemNameOfAssociatedBarcode()
+		{
+			var itemRepo = new ItemRepository();
+			var sut = new Sale(itemRepo);
+
+			sut.OnBarcode("123456");
+			sut.OnBarcode("456789");
+
+			var expectedItemNames = new string[] { "Bowl", "Crab" };
+			Assert.Equal(expectedItemNames, sut.ItemNames);
+		}
+	}
 
 }
