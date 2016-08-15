@@ -59,17 +59,18 @@ namespace PointOfSale.Domain
 			Assert.Equal(expected, sut.TotalPrice);
 		}
 
-		[Fact]
-		public void SaleStoresItemNameOfAssociatedBarcode()
+		[Theory]
+		[InlineData(new object[] { "123456", "456789" }, new object[] { "Bowl", "Crab" })]
+		public void SaleStoresItemNameOfAssociatedBarcode(string[] barcodes, string[] expected)
 		{
 			var itemRepo = new ItemRepository();
 			var sut = new Sale(itemRepo);
 
-			sut.OnBarcode("123456");
-			sut.OnBarcode("456789");
-
-			var expectedItemNames = new string[] { "Bowl", "Crab" };
-			Assert.Equal(expectedItemNames, sut.ItemNames);
+			foreach (var barcode in barcodes)
+			{
+				sut.OnBarcode(barcode);
+			}
+			Assert.Equal(expected, sut.ItemNames);
 		}
 	}
 
