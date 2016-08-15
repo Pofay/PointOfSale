@@ -31,8 +31,6 @@ namespace PointOfSale.Domain
 			totalPrice = decimal.Add(totalPrice, item.Price);
 			itemNames.Add(item.Name);
 		}
-
-
 	}
 
 }
