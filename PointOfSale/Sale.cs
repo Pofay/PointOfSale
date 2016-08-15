@@ -28,15 +28,11 @@ namespace PointOfSale.Domain
 		public void OnBarcode(string barcode)
 		{
 			totalPrice += repo.getPriceFor(barcode);
-			if ("123456".Equals(barcode))
-				itemNames.Add("Bowl");
-			else if ("456789".Equals(barcode))
-				itemNames.Add("Crab");
-			else if ("789010".Equals(barcode))
-				itemNames.Add("Fish");
-			else if ("345670".Equals(barcode))
-				itemNames.Add("Plunger");
+			var itemName = repo.getItemNameFor(barcode);
+			itemNames.Add(itemName);
 		}
+
+
 	}
 
 }
