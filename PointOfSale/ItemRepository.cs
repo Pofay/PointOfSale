@@ -10,20 +10,22 @@ namespace PointOfSale.Domain
 
 	public class ItemRepository
 	{
-		Dictionary<string, double> itemPrices;
+		Dictionary<string, Item> itemPrices;
 
 
 		public ItemRepository()
 		{
-			itemPrices = new Dictionary<string, double>();
-			itemPrices.Add("123456", 12.50);
-			itemPrices.Add("900000", 7.50);
-			itemPrices.Add("456789", 24.50);
+			itemPrices = new Dictionary<string, Item>();
+			itemPrices.Add("123456", new Item("123456", "Bowl", 12.50));
+			itemPrices.Add("900000", new Item("900000", "Phone", 7.50));
+			itemPrices.Add("456789", new Item("456789", "Crab", 24.50));
+			itemPrices.Add("345670", new Item("345670", "Plunger", 6.50));
+			itemPrices.Add("789010", new Item("789010", "Fish", 10.25));
 		}
 
-		public double getPriceFor(string barcode)
+		public decimal getPriceFor(string barcode)
 		{
-			return itemPrices.ContainsKey(barcode) ? itemPrices[barcode] : 0.0;
+			return itemPrices.ContainsKey(barcode) ? itemPrices[barcode].Price : new decimal(0.0);
 		}
 
 		public string getItemNameFor(string barcode)
