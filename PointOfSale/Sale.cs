@@ -32,6 +32,10 @@ namespace PointOfSale.Domain
 				itemNames.Add("Bowl");
 			else if ("456789".Equals(barcode))
 				itemNames.Add("Crab");
+			else if ("789010".Equals(barcode))
+				itemNames.Add("Fish");
+			else if ("345670".Equals(barcode))
+				itemNames.Add("Plunger");
 		}
 	}
 

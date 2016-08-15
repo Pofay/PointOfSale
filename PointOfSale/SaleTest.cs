@@ -61,6 +61,7 @@ namespace PointOfSale.Domain
 
 		[Theory]
 		[InlineData(new object[] { "123456", "456789" }, new object[] { "Bowl", "Crab" })]
+		[InlineData(new object[] { "789010", "345670" }, new object[] { "Fish", "Plunger" })]
 		public void SaleStoresItemNameOfAssociatedBarcode(string[] barcodes, string[] expected)
 		{
 			var itemRepo = new ItemRepository();
