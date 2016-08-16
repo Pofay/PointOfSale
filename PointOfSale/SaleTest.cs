@@ -72,6 +72,12 @@ namespace PointOfSale.Domain
 
 			sut.ScannedItems.Should().Contain(expected);
 		}
+
+		[Fact]
+		public void DisplayShowsItemInStringForEveryBarcodeRead()
+		{
+
+		}
 	}
 
 }
