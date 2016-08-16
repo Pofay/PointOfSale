@@ -66,7 +66,7 @@ namespace PointOfSale.Domain
 
 		[Theory]
 		[InlineData("123456", "Bowl", 12.50)]
-		public void SaleStoresItemNameOfAssociatedBarcode(string barcode, string name, double price)
+		public void SaleStoresItemFromScannedBarcode(string barcode, string name, double price)
 		{
 			var itemRepo = new ItemRegistry();
 			var dummy = new Mock<Display>();
