@@ -68,13 +68,14 @@ namespace PointOfSale.Domain
 		[InlineData("123456")]
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
+			// Arrange
 			var itemRepo = new ItemRegistry();
 			var dummy = new Mock<Display>();
 			var sut = new Sale(itemRepo, dummy.Object);
 			var expected = itemRepo.getItemWith(barcode);
-
+			// Act
 			sut.Scan(barcode);
-
+			// Assert
 			sut.ScannedItems.Should().Contain(expected);
 		}
 
@@ -82,15 +83,15 @@ namespace PointOfSale.Domain
 		[Fact]
 		public void ScannedItemIsDisplayed()
 		{
+			// Arrange
 			var itemRepo = new ItemRegistry();
 			var sut = new Mock<Display>();
 			var sale = new Sale(itemRepo, sut.Object);
-
-
 			var item = itemRepo.getItemWith("123456");
-
+			// Act
 			sale.Scan("123456");
 
+			// Assert
 			sut.Verify(s => s.DisplayScannedItem(item));
 		}
 	}
