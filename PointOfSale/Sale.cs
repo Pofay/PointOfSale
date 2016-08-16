@@ -14,15 +14,15 @@ namespace PointOfSale.Domain
 		private readonly List<Item> scannedItems;
 		private decimal totalPrice;
 		private readonly ItemRegistry repo;
-		private readonly Display sut;
+		private readonly Display display;
 
 		public decimal TotalPrice { get { return totalPrice; } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
-		public Sale(ItemRegistry repo, Display sut)
+		public Sale(ItemRegistry repo, Display display)
 		{
 			this.repo = repo;
-			this.sut = sut;
+			this.display = display;
 			this.scannedItems = new List<Item>();
 		}
 
@@ -31,6 +31,7 @@ namespace PointOfSale.Domain
 			var item = repo.getItemWith(barcode);
 			totalPrice = decimal.Add(totalPrice, item.Price);
 			scannedItems.Add(item);
+			display.DisplayScannedItem(item);
 		}
 	}
 

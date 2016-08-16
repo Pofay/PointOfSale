@@ -78,13 +78,13 @@ namespace PointOfSale.Domain
 			sut.ScannedItems.Should().Contain(expected);
 		}
 
-		/*
+
 		[Fact]
-		public void DisplayShowsItemInStringForEveryBarcodeRead()
+		public void SaleCallsDisplayToDisplayScannedItemDetails()
 		{
 			var itemRepo = new ItemRegistry();
 			var sut = new Mock<Display>();
-			var sale = new Sale(itemRepo, sut);
+			var sale = new Sale(itemRepo, sut.Object);
 
 
 			var item = itemRepo.getItemWith("123456");
@@ -92,7 +92,7 @@ namespace PointOfSale.Domain
 			sale.OnBarcode("123456");
 
 			sut.Verify(s => s.DisplayScannedItem(item));
-		}*/
+		}
 	}
 
 }
