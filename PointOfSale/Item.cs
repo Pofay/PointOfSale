@@ -23,6 +23,11 @@ namespace PointOfSale.Domain
 				return true;
 			return false;
 		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 }
 
