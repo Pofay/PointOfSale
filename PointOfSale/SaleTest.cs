@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 
 namespace PointOfSale.Domain
 {
 	public class SaleTest
 	{
+		int numOfDecimalPlaces = 1;
 
 		[Theory]
 		[InlineData("123456", 12.50)]
@@ -24,7 +26,7 @@ namespace PointOfSale.Domain
 			sut.OnBarcode(barcode);
 
 			// Assert
-			Assert.Equal(expectedPrice, sut.TotalPrice);
+			Assert.Equal(expectedPrice, sut.TotalPrice, numOfDecimalPlaces);
 		}
 
 
@@ -40,36 +42,35 @@ namespace PointOfSale.Domain
 			barcodes.ToList().ForEach(barcode => sut.OnBarcode(barcode));
 
 			// Assert
-			Assert.Equal(expectedTotalPrice, sut.TotalPrice);
+			Assert.Equal(expectedTotalPrice, sut.TotalPrice, numOfDecimalPlaces);
 		}
 
 
 		[Fact]
 		public void GetTotalPriceOnEmptyBarcodeReturns0Price()
 		{
+
 			// Arrange
 			var itemRepo = new ItemRegistry();
 			var sut = new Sale(itemRepo);
 			// Act
 			sut.OnBarcode("");
 			// Assert
-			decimal expected = new decimal(0);
-			Assert.Equal(expected, sut.TotalPrice);
+			var expected = new decimal(0);
+			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
 		}
 
 		[Theory]
-		[InlineData(new object[] { "123456", "456789" }, new object[] { "Bowl", "Crab" })]
-		[InlineData(new object[] { "789010", "345670" }, new object[] { "Fish", "Plunger" })]
-		public void SaleStoresItemNameOfAssociatedBarcode(string[] barcodes, string[] expectedItemNames)
+		[InlineData("123456", "Bowl", 12.50)]
+		public void SaleStoresItemNameOfAssociatedBarcode(string barcode, string name, double price)
 		{
 			var itemRepo = new ItemRegistry();
 			var sut = new Sale(itemRepo);
+			var expected = new Item(barcode, name, price);
 
-			foreach (var barcode in barcodes)
-			{
-				sut.OnBarcode(barcode);
-			}
-			Assert.Equal(expectedItemNames, sut.ItemNames);
+			sut.OnBarcode(barcode);
+
+			sut.ScannedItems.Should().Contain(expected);
 		}
 	}
 

@@ -15,6 +15,14 @@ namespace PointOfSale.Domain
 			this.Name = name;
 			this.price = price;
 		}
+
+		public override bool Equals(object obj)
+		{
+			var other = obj as Item;
+			if (other.Barcode.Equals(this.Barcode))
+				return true;
+			return false;
+		}
 	}
 }
 
