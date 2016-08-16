@@ -17,7 +17,7 @@ namespace PointOfSale.Domain
 		[InlineData("123456", 12.50)]
 		[InlineData("456789", 24.50)]
 		[InlineData("900000", 7.50)]
-		public void GetTotalPriceForOneItemOnSaleReturnsCorrectResult(string barcode, decimal expectedPrice)
+		public void GetTotalPriceForOneItemReturnsCorrectResult(string barcode, decimal expectedPrice)
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
@@ -65,13 +65,13 @@ namespace PointOfSale.Domain
 		}
 
 		[Theory]
-		[InlineData("123456", "Bowl", 12.50)]
-		public void SaleStoresItemFromScannedBarcode(string barcode, string name, double price)
+		[InlineData("123456")]
+		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
 			var itemRepo = new ItemRegistry();
 			var dummy = new Mock<Display>();
 			var sut = new Sale(itemRepo, dummy.Object);
-			var expected = new Item(barcode, name, price);
+			var expected = itemRepo.getItemWith(barcode);
 
 			sut.OnBarcode(barcode);
 
