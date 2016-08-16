@@ -19,6 +19,7 @@ namespace PointOfSale.Domain
 		public decimal TotalPrice { get { return totalPrice; } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
+		// Display might be a decorator of some sort to prevent it to become a Header interface
 		public Sale(ItemRegistry repo, Display display)
 		{
 			this.repo = repo;
