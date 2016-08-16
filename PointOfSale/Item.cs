@@ -8,7 +8,7 @@ namespace PointOfSale.Domain
 		public string Name { get; private set; }
 		public decimal Price { get { return new decimal(price); } }
 
-		// This needs to be extracted as a Domain Concept equals() method is screaming for it.
+		// This needs to be extracted as a Domain Concept, equals() method is screaming for it.
 		public string Barcode { get; private set; }
 
 		public Item(string barcode, string name, double price)
