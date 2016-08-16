@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace PointOfSale.Domain
@@ -20,7 +21,8 @@ namespace PointOfSale.Domain
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var sut = new Sale(itemRepo);
+			var dummy = new Mock<Display>();
+			var sut = new Sale(itemRepo, dummy.Object);
 
 			// Act
 			sut.OnBarcode(barcode);
@@ -36,7 +38,8 @@ namespace PointOfSale.Domain
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var sut = new Sale(itemRepo);
+			var dummy = new Mock<Display>();
+			var sut = new Sale(itemRepo, dummy.Object);
 
 			// Act
 			barcodes.ToList().ForEach(barcode => sut.OnBarcode(barcode));
@@ -52,7 +55,8 @@ namespace PointOfSale.Domain
 
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var sut = new Sale(itemRepo);
+			var dummy = new Mock<Display>();
+			var sut = new Sale(itemRepo, dummy.Object);
 			// Act
 			sut.OnBarcode("");
 			// Assert
@@ -65,7 +69,8 @@ namespace PointOfSale.Domain
 		public void SaleStoresItemNameOfAssociatedBarcode(string barcode, string name, double price)
 		{
 			var itemRepo = new ItemRegistry();
-			var sut = new Sale(itemRepo);
+			var dummy = new Mock<Display>();
+			var sut = new Sale(itemRepo, dummy.Object);
 			var expected = new Item(barcode, name, price);
 
 			sut.OnBarcode(barcode);
@@ -73,11 +78,21 @@ namespace PointOfSale.Domain
 			sut.ScannedItems.Should().Contain(expected);
 		}
 
+		/*
 		[Fact]
 		public void DisplayShowsItemInStringForEveryBarcodeRead()
 		{
+			var itemRepo = new ItemRegistry();
+			var sut = new Mock<Display>();
+			var sale = new Sale(itemRepo, sut);
 
-		}
+
+			var item = itemRepo.getItemWith("123456");
+
+			sale.OnBarcode("123456");
+
+			sut.Verify(s => s.DisplayScannedItem(item));
+		}*/
 	}
 
 }

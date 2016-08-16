@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Moq;
 
 namespace PointOfSale.Domain
 {
@@ -13,17 +14,17 @@ namespace PointOfSale.Domain
 		private readonly List<Item> scannedItems;
 		private decimal totalPrice;
 		private readonly ItemRegistry repo;
-
+		private readonly Display sut;
 
 		public decimal TotalPrice { get { return totalPrice; } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
-		public Sale(ItemRegistry repo)
+		public Sale(ItemRegistry repo, Display sut)
 		{
 			this.repo = repo;
+			this.sut = sut;
 			this.scannedItems = new List<Item>();
 		}
-
 
 		public void OnBarcode(string barcode)
 		{
