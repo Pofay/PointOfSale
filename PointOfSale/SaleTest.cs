@@ -34,7 +34,7 @@ namespace PointOfSale.Domain
 
 		[Theory]
 		[InlineData(new string[2] { "123456", "456789" }, 37.00)]
-		public void GetTotalPriceForTwoItemsOnSaleReturnsTotalPrice(string[] barcodes, decimal expectedTotalPrice)
+		public void GetTotalPriceForTwoItemsReturnsTotalPrice(string[] barcodes, decimal expectedTotalPrice)
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
