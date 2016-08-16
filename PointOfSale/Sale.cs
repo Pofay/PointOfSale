@@ -27,7 +27,7 @@ namespace PointOfSale.Domain
 			this.scannedItems = new List<Item>();
 		}
 
-		public void OnBarcode(string barcode)
+		public void Scan(string barcode)
 		{
 			var item = repo.getItemWith(barcode);
 			totalPrice = decimal.Add(totalPrice, item.Price);
