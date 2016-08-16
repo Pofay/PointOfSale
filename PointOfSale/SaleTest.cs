@@ -25,7 +25,7 @@ namespace PointOfSale.Domain
 			var sut = new Sale(itemRepo, dummy.Object);
 
 			// Act
-			sut.OnBarcode(barcode);
+			sut.Scan(barcode);
 
 			// Assert
 			Assert.Equal(expectedPrice, sut.TotalPrice, numOfDecimalPlaces);
@@ -42,7 +42,7 @@ namespace PointOfSale.Domain
 			var sut = new Sale(itemRepo, dummy.Object);
 
 			// Act
-			barcodes.ToList().ForEach(barcode => sut.OnBarcode(barcode));
+			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
 
 			// Assert
 			Assert.Equal(expectedTotalPrice, sut.TotalPrice, numOfDecimalPlaces);
@@ -58,7 +58,7 @@ namespace PointOfSale.Domain
 			var dummy = new Mock<Display>();
 			var sut = new Sale(itemRepo, dummy.Object);
 			// Act
-			sut.OnBarcode("");
+			sut.Scan("");
 			// Assert
 			var expected = new decimal(0);
 			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
@@ -73,14 +73,14 @@ namespace PointOfSale.Domain
 			var sut = new Sale(itemRepo, dummy.Object);
 			var expected = itemRepo.getItemWith(barcode);
 
-			sut.OnBarcode(barcode);
+			sut.Scan(barcode);
 
 			sut.ScannedItems.Should().Contain(expected);
 		}
 
 
 		[Fact]
-		public void SaleCallsDisplayToDisplayScannedItemDetails()
+		public void ScannedItemIsDisplayed()
 		{
 			var itemRepo = new ItemRegistry();
 			var sut = new Mock<Display>();
@@ -89,7 +89,7 @@ namespace PointOfSale.Domain
 
 			var item = itemRepo.getItemWith("123456");
 
-			sale.OnBarcode("123456");
+			sale.Scan("123456");
 
 			sut.Verify(s => s.DisplayScannedItem(item));
 		}
