@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.Domain", "Point
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.UI", "PointOfSale.UI\PointOfSale.UI.csproj", "{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.DomainUnitTests", "PointOfSale.DomainUnitTests\PointOfSale.DomainUnitTests.csproj", "{2AB7B01A-C499-4622-83D4-9AFE5218D98F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB7B01A-C499-4622-83D4-9AFE5218D98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB7B01A-C499-4622-83D4-9AFE5218D98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB7B01A-C499-4622-83D4-9AFE5218D98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB7B01A-C499-4622-83D4-9AFE5218D98F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
