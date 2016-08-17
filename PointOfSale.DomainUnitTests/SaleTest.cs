@@ -7,6 +7,7 @@ using FluentAssertions;
 using Moq;
 using PointOfSale.Domain;
 using Xunit;
+using Xunit.Extensions;
 
 namespace PointOfSale.DomainUnitTests
 {
@@ -18,9 +19,10 @@ namespace PointOfSale.DomainUnitTests
 		[InlineData("123456", 12.50)]
 		[InlineData("456789", 24.50)]
 		[InlineData("900000", 7.50)]
-		public void GetTotalPriceForOneItemReturnsCorrectResult(string barcode, decimal expectedPrice)
+		public void GetTotalPriceForOneItemReturnsCorrectResult(string barcode, double price)
 		{
 			// Arrange
+			var expected = new decimal(price);
 			var itemRepo = new ItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
@@ -30,15 +32,16 @@ namespace PointOfSale.DomainUnitTests
 			sut.Scan(barcode);
 
 			// Assert
-			Assert.Equal(expectedPrice, sut.TotalPrice, numOfDecimalPlaces);
+			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
 		}
 
 
 		[Theory]
 		[InlineData(new string[2] { "123456", "456789" }, 37.00)]
-		public void GetTotalPriceForTwoItemsReturnsTotalPrice(string[] barcodes, decimal expectedTotalPrice)
+		public void GetTotalPriceForTwoItemsReturnsTotalPrice(string[] barcodes, double price)
 		{
 			// Arrange
+			var expected = new decimal(price);
 			var itemRepo = new ItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
@@ -48,7 +51,7 @@ namespace PointOfSale.DomainUnitTests
 			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
 
 			// Assert
-			Assert.Equal(expectedTotalPrice, sut.TotalPrice, numOfDecimalPlaces);
+			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
 		}
 
 
