@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using Ploeh.AutoFixture.Xunit;
 using PointOfSale.Domain;
 using Xunit;
 using Xunit.Extensions;
@@ -55,18 +56,17 @@ namespace PointOfSale.DomainUnitTests
 		}
 
 
-		[Fact]
-		public void GetTotalPriceOnEmptyBarcodeReturns0Price()
+		[Theory, AutoMoqData]
+		public void GetTotalPriceOnEmptyBarcodeReturns0Price(
+			ItemRegistry registry,
+			Mock<Display> dummyDisplay,
+			Mock<ReceiptFactory> dummyFactory,
+			Sale sut)
 		{
-
 			// Arrange
-			var itemRepo = new ItemRegistry();
-			var dummyDisplay = new Mock<Display>();
-			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
-
+			string emptyBarcode = "";
 			// Act
-			sut.Scan("");
+			sut.Scan(emptyBarcode);
 
 			// Assert
 			var expected = new decimal(0);
@@ -78,11 +78,11 @@ namespace PointOfSale.DomainUnitTests
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
 			// Arrange
-			var itemRepo = new ItemRegistry();
+			var registry = new ItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
-			var expected = itemRepo.getItemWith(barcode);
+			var sut = new Sale(registry, dummyDisplay.Object, dummyFactory.Object);
+			var expected = registry.getItemWith(barcode);
 
 			// Act
 			sut.Scan(barcode);
@@ -92,36 +92,35 @@ namespace PointOfSale.DomainUnitTests
 		}
 
 
-		[Fact]
-		public void ScannedItemIsDisplayed()
+		[Theory, AutoMoqData]
+		public void ScannedItemIsDisplayed(
+			ItemRegistry registry,
+			[Frozen] Mock<Display> sut,
+			Mock<ReceiptFactory> dummy,
+			Sale sale)
 		{
 			// Arrange
-			var itemRepo = new ItemRegistry();
-			var sut = new Mock<Display>();
-			var dummy = new Mock<ReceiptFactory>();
-			var sale = new Sale(itemRepo, sut.Object, dummy.Object);
-			var item = itemRepo.getItemWith("123456");
+			var expected = registry.getItemWith("123456");
 
 			// Act
 			sale.Scan("123456");
 
 			// Assert
-			sut.Verify(s => s.DisplayScannedItem(item));
+			sut.Verify(s => s.DisplayScannedItem(expected));
 		}
 
-		[Fact]
-		public void CompleteSaleDisplaysReceipt()
+		[Theory, AutoMoqData]
+		public void CompleteSaleDisplaysReceipt(
+			ItemRegistry registry,
+			[Frozen] Mock<ReceiptFactory> stub,
+			[Frozen] Mock<Display> sut,
+			Sale sale)
 		{
 			// Arrange
-			var itemRepo = new ItemRegistry();
-
-			var sut = new Mock<Display>();
-			var stubFactory = new Mock<ReceiptFactory>();
-			var item = itemRepo.getItemWith("123456");
+			var item = registry.getItemWith("123456");
 			var expected = new Receipt(item.Price);
-			stubFactory.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
+			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
 
-			var sale = new Sale(itemRepo, sut.Object, stubFactory.Object);
 			// Act
 			sale.Scan("123456");
 			sale.OnCompleteSale();
