@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using PointOfSale.Domain;
 using Xunit;
 
-namespace PointOfSale.Domain
+namespace PointOfSale.DomainUnitTests
 {
 	public class SaleTest
 	{
