@@ -108,19 +108,22 @@ namespace PointOfSale.Domain
 		[Fact]
 		public void CompleteSaleDisplaysReceipt()
 		{
+			// Arrange
 			var itemRepo = new ItemRegistry();
+
 			var sut = new Mock<Display>();
 			var stubFactory = new Mock<ReceiptFactory>();
-			var sale = new Sale(itemRepo, sut.Object, stubFactory.Object);
-			stubFactory.Setup(s => s.CreateReceiptFrom(new decimal(12.50))).Returns(new Receipt(new decimal(12.50)));
-			var stub = stubFactory.Object.CreateReceiptFrom(new decimal(12.50));
+			var item = itemRepo.getItemWith("123456");
+			var expected = new Receipt(item.Price);
+			stubFactory.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
 
+			var sale = new Sale(itemRepo, sut.Object, stubFactory.Object);
 			// Act
 			sale.Scan("123456");
 			sale.OnCompleteSale();
 
 			// Assert
-			sut.Verify(s => s.DisplayReceipt(stub));
+			sut.Verify(s => s.DisplayReceipt(expected));
 		}
 	}
 
