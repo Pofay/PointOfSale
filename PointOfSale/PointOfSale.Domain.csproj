@@ -75,6 +75,7 @@
     <Compile Include="SaleTest.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Display.cs" />
+    <Compile Include="ReceiptFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

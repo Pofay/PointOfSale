@@ -15,15 +15,24 @@ namespace PointOfSale.Domain
 		private decimal totalPrice;
 		private readonly ItemRegistry repo;
 		private readonly Display display;
+		private readonly ReceiptFactory factory;
 
 		public decimal TotalPrice { get { return totalPrice; } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
 		// Display might be a decorator of some sort to prevent it to become a Header interface
-		public Sale(ItemRegistry repo, Display display)
+		/*public Sale(ItemRegistry repo, Display display)
 		{
 			this.repo = repo;
 			this.display = display;
+			this.scannedItems = new List<Item>();
+		}*/
+
+		public Sale(ItemRegistry repo, Display display, ReceiptFactory factory)
+		{
+			this.repo = repo;
+			this.display = display;
+			this.factory = factory;
 			this.scannedItems = new List<Item>();
 		}
 
@@ -34,6 +43,7 @@ namespace PointOfSale.Domain
 			scannedItems.Add(item);
 			display.DisplayScannedItem(item);
 		}
+
 	}
 
 }

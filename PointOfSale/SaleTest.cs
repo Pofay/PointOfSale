@@ -21,8 +21,9 @@ namespace PointOfSale.Domain
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var dummy = new Mock<Display>();
-			var sut = new Sale(itemRepo, dummy.Object);
+			var dummyDisplay = new Mock<Display>();
+			var dummyFactory = new Mock<ReceiptFactory>();
+			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
 
 			// Act
 			sut.Scan(barcode);
@@ -38,8 +39,9 @@ namespace PointOfSale.Domain
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var dummy = new Mock<Display>();
-			var sut = new Sale(itemRepo, dummy.Object);
+			var dummyDisplay = new Mock<Display>();
+			var dummyFactory = new Mock<ReceiptFactory>();
+			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
 
 			// Act
 			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
@@ -55,10 +57,13 @@ namespace PointOfSale.Domain
 
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var dummy = new Mock<Display>();
-			var sut = new Sale(itemRepo, dummy.Object);
+			var dummyDisplay = new Mock<Display>();
+			var dummyFactory = new Mock<ReceiptFactory>();
+			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
+
 			// Act
 			sut.Scan("");
+
 			// Assert
 			var expected = new decimal(0);
 			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
@@ -70,11 +75,14 @@ namespace PointOfSale.Domain
 		{
 			// Arrange
 			var itemRepo = new ItemRegistry();
-			var dummy = new Mock<Display>();
-			var sut = new Sale(itemRepo, dummy.Object);
+			var dummyDisplay = new Mock<Display>();
+			var dummyFactory = new Mock<ReceiptFactory>();
+			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
 			var expected = itemRepo.getItemWith(barcode);
+
 			// Act
 			sut.Scan(barcode);
+
 			// Assert
 			sut.ScannedItems.Should().Contain(expected);
 		}
@@ -86,13 +94,21 @@ namespace PointOfSale.Domain
 			// Arrange
 			var itemRepo = new ItemRegistry();
 			var sut = new Mock<Display>();
-			var sale = new Sale(itemRepo, sut.Object);
+			var dummy = new Mock<ReceiptFactory>();
+			var sale = new Sale(itemRepo, sut.Object, dummy.Object);
 			var item = itemRepo.getItemWith("123456");
+
 			// Act
 			sale.Scan("123456");
 
 			// Assert
 			sut.Verify(s => s.DisplayScannedItem(item));
+		}
+
+		[Fact]
+		public void CompleteSaleDisplaysReceipt()
+		{
+
 		}
 	}
 
