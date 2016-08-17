@@ -21,12 +21,6 @@ namespace PointOfSale.Domain
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
 		// Display might be a decorator of some sort to prevent it to become a Header interface
-		/*public Sale(ItemRegistry repo, Display display)
-		{
-			this.repo = repo;
-			this.display = display;
-			this.scannedItems = new List<Item>();
-		}*/
 
 		public Sale(ItemRegistry repo, Display display, ReceiptFactory factory)
 		{
