@@ -30,6 +30,11 @@ namespace PointOfSale.Domain
 		{
 			return base.GetHashCode();
 		}
+
+		public override string ToString()
+		{
+			return string.Format("[Item: Name={0}, Price={1}, Barcode={2}]", Name, Price, Barcode);
+		}
 	}
 }
 

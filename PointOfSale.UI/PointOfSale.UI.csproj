@@ -28,11 +28,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.0.0\lib\net451\Autofac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConsolePosDisplay.cs" />
+    <Compile Include="ConsoleReceiptFactory.cs" />
+    <Compile Include="PointOfSaleModule.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PointOfSale\PointOfSale.Domain.csproj">
+      <Project>{C5E40D39-8841-42CC-AAE4-CD5358355A1B}</Project>
+      <Name>PointOfSale.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
