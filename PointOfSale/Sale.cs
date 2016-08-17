@@ -3,29 +3,44 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace PointOfSale.Domain
 {
 
-    public class Sale
-    {
-        public decimal TotalPrice { get { return new decimal(totalPrice); } }
+	public class Sale
+	{
+		private readonly List<Item> scannedItems;
+		private decimal totalPrice;
+		private readonly ItemRegistry repo;
+		private readonly Display display;
+		private readonly ReceiptFactory factory;
 
-        private double totalPrice;
-        private readonly ItemRepository repo;
+		public decimal TotalPrice { get { return totalPrice; } }
+		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
+		// Display might be a decorator of some sort to prevent it to become a Header interface
 
-        public Sale(ItemRepository repo)
-        {
-            this.repo = repo;
-        }
+		public Sale(ItemRegistry repo, Display display, ReceiptFactory factory)
+		{
+			this.repo = repo;
+			this.display = display;
+			this.factory = factory;
+			this.scannedItems = new List<Item>();
+		}
 
+		public void Scan(string barcode)
+		{
+			var item = repo.getItemWith(barcode);
+			totalPrice = decimal.Add(totalPrice, item.Price);
+			scannedItems.Add(item);
+			display.DisplayScannedItem(item);
+		}
 
-        public void OnBarcode(string barcode)
-        {
-            totalPrice += repo.getPriceFor(barcode);
-        }
-    }
+		public void OnCompleteSale()
+		{
+			var receipt = factory.CreateReceiptFrom(totalPrice);
+			display.DisplayReceipt(receipt);
+		}
+	}
 
 }
