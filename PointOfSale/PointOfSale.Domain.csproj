@@ -76,6 +76,7 @@
     <Compile Include="Item.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="ReceiptFactory.cs" />
+    <Compile Include="Receipt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

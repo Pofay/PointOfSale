@@ -1,6 +1,9 @@
-﻿namespace PointOfSale.Domain
+﻿using System;
+
+namespace PointOfSale.Domain
 {
-	public class ReceiptFactory
+	public interface ReceiptFactory
 	{
+		Receipt CreateReceiptFrom(decimal price);
 	}
 }

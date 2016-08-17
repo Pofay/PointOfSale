@@ -3,6 +3,7 @@
 	public interface Display
 	{
 		void DisplayScannedItem(Item item);
-		//void DisplayReceipt(Receipt receipt);
+
+		void DisplayReceipt(Receipt receipt);
 	}
 }

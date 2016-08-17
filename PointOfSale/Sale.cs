@@ -44,6 +44,11 @@ namespace PointOfSale.Domain
 			display.DisplayScannedItem(item);
 		}
 
+		public void OnCompleteSale()
+		{
+			var receipt = factory.CreateReceiptFrom(totalPrice);
+			display.DisplayReceipt(receipt);
+		}
 	}
 
 }
