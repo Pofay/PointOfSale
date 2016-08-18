@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using Autofac;
 using PointOfSale.Domain;
+using PointOfSale.SqlDataAccess;
 
 namespace PointOfSale.UI
 {
@@ -9,8 +11,11 @@ namespace PointOfSale.UI
 		public static void Main(string[] args)
 		{
 			var builder = new ContainerBuilder();
+			var installer = new DBInstaller();
 			builder.RegisterModule(new PointOfSaleModule());
 			var container = builder.Build();
+
+			installer.InstallDatabase(ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString);
 
 			bool exit = false;
 

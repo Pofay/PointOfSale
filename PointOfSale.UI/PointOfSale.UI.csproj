@@ -31,6 +31,7 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.4.0.0\lib\net451\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -44,9 +45,14 @@
       <Project>{C5E40D39-8841-42CC-AAE4-CD5358355A1B}</Project>
       <Name>PointOfSale.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PointOfSale.SqlDataAccess\PointOfSale.SqlDataAccess.csproj">
+      <Project>{16094C8E-B35B-47AA-A31B-16785964D48B}</Project>
+      <Name>PointOfSale.SqlDataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

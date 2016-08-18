@@ -32,10 +32,15 @@
       <HintPath>..\..\..\Documents\DotNet_Libraries\v4.5\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="AssemblyLoader">
+      <HintPath>..\..\AssemblyLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MySqlItemRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DBInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PointOfSale\PointOfSale.Domain.csproj">
@@ -47,7 +52,7 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PointOfSaleDBSchema.sql" />
+    <EmbeddedResource Include="Resources\PointOfSaleDBSchema.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

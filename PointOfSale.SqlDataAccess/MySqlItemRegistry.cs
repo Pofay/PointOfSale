@@ -6,11 +6,11 @@ using PointOfSale.Domain;
 
 namespace PointOfSale.SqlDataAccess
 {
-	public class SqlItemRegistry : ItemRegistry, IDisposable
+	public class MySqlItemRegistry : ItemRegistry, IDisposable
 	{
 		private readonly MySqlConnection connection;
 
-		public SqlItemRegistry(string connectionString)
+		public MySqlItemRegistry(string connectionString)
 		{
 			this.connection = this.OpenDBConnection(connectionString);
 		}
@@ -39,10 +39,11 @@ namespace PointOfSale.SqlDataAccess
 				cmd.Parameters.Add(new MySqlParameter("@barcode", barcode));
 
 				var adapter = new MySqlDataAdapter(cmd);
-				adapter.SelectCommand.CommandType = System.Data.CommandType.Text;
-				var dt = new DataTable();
-				adapter.Fill(dt);
-				var row = dt.Rows[0];
+				//	adapter.SelectCommand.CommandType = System.Data.CommandType.Text;
+				adapter.SelectCommand.CommandType = CommandType.Text;
+				var table = new DataTable();
+				adapter.Fill(table);
+				var row = table.Rows[0];
 				return new Item(row["barcode"].ToString(), row["name"].ToString(), double.Parse(row["price"].ToString()));
 			}
 		}
@@ -56,7 +57,7 @@ namespace PointOfSale.SqlDataAccess
 		protected virtual void Dispose(bool disposing)
 		{
 			if (disposing)
-				this.lazyConn.Value.Dispose();
+				this.connection.Dispose();
 		}
 	}
 }
