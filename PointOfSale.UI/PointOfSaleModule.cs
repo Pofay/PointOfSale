@@ -8,7 +8,7 @@ namespace PointOfSale.UI
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-			builder.RegisterType<InMemoryItemRegistry>();
+			builder.RegisterType<InMemoryItemRegistry>().AsImplementedInterfaces();
 			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
 			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
 			builder.RegisterType<Sale>().InstancePerDependency();
