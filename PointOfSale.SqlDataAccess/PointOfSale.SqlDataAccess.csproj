@@ -28,10 +28,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\Documents\DotNet_Libraries\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SqlItemRegistry.cs" />
+    <Compile Include="MySqlItemRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PointOfSale\PointOfSale.Domain.csproj">
+      <Project>{C5E40D39-8841-42CC-AAE4-CD5358355A1B}</Project>
+      <Name>PointOfSale.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PointOfSaleDBSchema.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
