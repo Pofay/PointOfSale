@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using AssemblyLoader.RunningJournalAPI;
 using MySql.Data.MySqlClient;
 
 namespace PointOfSale.SqlDataAccess

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
 using MySql.Data.MySqlClient;
 using PointOfSale.Domain;
