@@ -24,7 +24,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var expected = new decimal(price);
-			var itemRepo = new ItemRegistry();
+			var itemRepo = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
 			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
@@ -43,7 +43,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var expected = new decimal(price);
-			var itemRepo = new ItemRegistry();
+			var itemRepo = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
 			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
@@ -58,13 +58,14 @@ namespace PointOfSale.DomainUnitTests
 
 		[Theory, AutoMoqData]
 		public void GetTotalPriceOnEmptyBarcodeReturns0Price(
-			ItemRegistry registry,
+			InMemoryItemRegistry registry,
 			Mock<Display> dummyDisplay,
-			Mock<ReceiptFactory> dummyFactory,
-			Sale sut)
+			Mock<ReceiptFactory> dummyFactory)
 		{
 			// Arrange
+			var sut = new Sale(registry, dummyDisplay.Object, dummyFactory.Object);
 			string emptyBarcode = "";
+
 			// Act
 			sut.Scan(emptyBarcode);
 
@@ -78,7 +79,7 @@ namespace PointOfSale.DomainUnitTests
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
 			// Arrange
-			var registry = new ItemRegistry();
+			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
 			var sut = new Sale(registry, dummyDisplay.Object, dummyFactory.Object);
@@ -94,12 +95,12 @@ namespace PointOfSale.DomainUnitTests
 
 		[Theory, AutoMoqData]
 		public void ScannedItemIsDisplayed(
-			ItemRegistry registry,
+			InMemoryItemRegistry registry,
 			[Frozen] Mock<Display> sut,
-			Mock<ReceiptFactory> dummy,
-			Sale sale)
+			Mock<ReceiptFactory> dummy)
 		{
 			// Arrange
+			var sale = new Sale(registry, sut.Object, dummy.Object);
 			var expected = registry.getItemWith("123456");
 
 			// Act
@@ -111,12 +112,12 @@ namespace PointOfSale.DomainUnitTests
 
 		[Theory, AutoMoqData]
 		public void CompleteSaleDisplaysReceipt(
-			ItemRegistry registry,
+			InMemoryItemRegistry registry,
 			[Frozen] Mock<ReceiptFactory> stub,
-			[Frozen] Mock<Display> sut,
-			Sale sale)
+			[Frozen] Mock<Display> sut)
 		{
 			// Arrange
+			var sale = new Sale(registry, sut.Object, stub.Object);
 			var item = registry.getItemWith("123456");
 			var expected = new Receipt(item.Price);
 			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);

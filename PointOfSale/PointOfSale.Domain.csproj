@@ -41,13 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemRegistry.cs" />
+    <Compile Include="InMemoryItemRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sale.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="ReceiptFactory.cs" />
     <Compile Include="Receipt.cs" />
+    <Compile Include="ItemRegistry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

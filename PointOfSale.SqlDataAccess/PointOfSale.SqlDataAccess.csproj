@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>PointOfSale.UI</RootNamespace>
-    <AssemblyName>PointOfSale.UI</AssemblyName>
+    <ProjectGuid>{16094C8E-B35B-47AA-A31B-16785964D48B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PointOfSale.SqlDataAccess</RootNamespace>
+    <AssemblyName>PointOfSale.SqlDataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,42 +17,44 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.4.0.0\lib\net451\Autofac.dll</HintPath>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="MySqlItemRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ConsolePosDisplay.cs" />
-    <Compile Include="ConsoleReceiptFactory.cs" />
-    <Compile Include="PointOfSaleModule.cs" />
+    <Compile Include="DBInstaller.cs" />
+    <Compile Include="EmbeddedResourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PointOfSale\PointOfSale.Domain.csproj">
       <Project>{C5E40D39-8841-42CC-AAE4-CD5358355A1B}</Project>
       <Name>PointOfSale.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PointOfSale.SqlDataAccess\PointOfSale.SqlDataAccess.csproj">
-      <Project>{16094C8E-B35B-47AA-A31B-16785964D48B}</Project>
-      <Name>PointOfSale.SqlDataAccess</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PointOfSaleDBSchema.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
