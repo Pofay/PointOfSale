@@ -30,7 +30,6 @@ namespace PointOfSale.UI
 							  "\nQuit [To Exit Program]");
 					Console.Write(">");
 					var command = Console.ReadLine().ToUpperInvariant();
-					#region evaluate command
 					switch (command)
 					{
 						case "SCAN":
