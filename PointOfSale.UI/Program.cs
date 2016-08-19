@@ -17,37 +17,41 @@ namespace PointOfSale.UI
 
 			installer.InstallDatabase(ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString);
 
-			var sale = container.Resolve<Sale>();
-			bool exit = false;
-			while (!exit)
-			{
-				Console.WriteLine("Options: \nScan [Scans an Item Barcode] " +
-						  "\nComplete [Complete's Sale by displaying Total Price]" +
-						  "\nQuit [To Exit Program]");
-				Console.Write(">");
-				var command = Console.ReadLine().ToUpperInvariant();
-				switch (command)
-				{
-					case "SCAN":
-						Console.WriteLine("Enter Barcode: ");
-						var barcode = Console.ReadLine();
-						sale.Scan(barcode);
-						Console.Read();
-						break;
-					case "COMPLETE":
-						sale.OnCompleteSale();
-						Console.Read();
-						break;
-					case "QUIT":
-						exit = true;
-						break;
-					default:
-						Console.Clear();
-						break;
-				}
-				Console.Clear();
-			}
 
+			using (container.BeginLifetimeScope())
+			{
+
+				var sale = container.Resolve<Sale>();
+				bool exit = false;
+				while (!exit)
+				{
+					Console.WriteLine("Options: \nScan [Scans an Item Barcode] " +
+							  "\nComplete [Complete's Sale by displaying Total Price]" +
+							  "\nQuit [To Exit Program]");
+					Console.Write(">");
+					var command = Console.ReadLine().ToUpperInvariant();
+					switch (command)
+					{
+						case "SCAN":
+							Console.WriteLine("Enter Barcode: ");
+							var barcode = Console.ReadLine();
+							sale.Scan(barcode);
+							Console.Read();
+							break;
+						case "COMPLETE":
+							sale.OnCompleteSale();
+							Console.Read();
+							break;
+						case "QUIT":
+							exit = true;
+							break;
+						default:
+							Console.Clear();
+							break;
+					}
+					Console.Clear();
+				}
+			}
 		}
 	}
 }
