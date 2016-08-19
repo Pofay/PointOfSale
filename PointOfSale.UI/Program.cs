@@ -11,15 +11,14 @@ namespace PointOfSale.UI
 		public static void Main(string[] args)
 		{
 			var builder = new ContainerBuilder();
-			var installer = new DBInstaller();
 			builder.RegisterModule(new PointOfSaleModule());
 			var container = builder.Build();
+			var installer = new DBInstaller();
 
 			installer.InstallDatabase(ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString);
 
-			bool exit = false;
-
 			var sale = container.Resolve<Sale>();
+			bool exit = false;
 			while (!exit)
 			{
 				Console.WriteLine("Options: \nScan [Scans an Item Barcode] " +

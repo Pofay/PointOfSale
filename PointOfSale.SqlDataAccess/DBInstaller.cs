@@ -15,19 +15,23 @@ namespace PointOfSale.SqlDataAccess
 				using (var cmd = new MySqlCommand())
 				{
 					cmd.Connection = conn;
-					var schemaSql = EmbeddedResourceLoader.GetEmbeddedResourceString(
-						Assembly.GetAssembly(typeof(MySqlItemRegistry)), "PointOfSaleDBSchema.sql");
-
-					foreach (var sql in schemaSql.Split(
-						new[] { "" }, StringSplitOptions.RemoveEmptyEntries))
-					{
-						cmd.CommandText = sql;
-						cmd.ExecuteNonQuery();
-					}
+					ExecuteInstallation(cmd);
 				}
 			}
 		}
 
+		private void ExecuteInstallation(MySqlCommand cmd)
+		{
+			var schemaSql = EmbeddedResourceLoader.GetEmbeddedResourceString(
+				Assembly.GetAssembly(typeof(MySqlItemRegistry)), "PointOfSaleDBSchema.sql");
+
+			foreach (var sql in schemaSql.Split(
+				new[] { "" }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				cmd.CommandText = sql;
+				cmd.ExecuteNonQuery();
+			}
+		}
 	}
 }
 
