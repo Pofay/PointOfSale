@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PointOfSale.Domain
 {
 
-	public class InMemoryItemRegistry : ItemRegistry
+	public class InMemoryItemRegistry : ItemRegistry, ItemRegistryReader
 	{
 		Dictionary<string, Item> items;
 
@@ -22,9 +22,14 @@ namespace PointOfSale.Domain
 			items.Add("789010", new Item("789010", "Fish", 10.25));
 		}
 
-		public Item getItemWith(string barcode)
+		public Item Read(string barcode)
 		{
 			return items.ContainsKey(barcode) ? items[barcode] : new Item("", "Unknown", 0.0);
+		}
+
+		public IEnumerable<Item> GetAvailableItems()
+		{
+			return items.Values.ToList();
 		}
 
 	}

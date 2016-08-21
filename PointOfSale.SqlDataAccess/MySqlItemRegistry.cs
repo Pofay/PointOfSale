@@ -5,7 +5,7 @@ using PointOfSale.Domain;
 
 namespace PointOfSale.SqlDataAccess
 {
-	public class MySqlItemRegistry : ItemRegistry, IDisposable
+	public class MySqlItemRegistry : ItemRegistryReader, IDisposable
 	{
 		private readonly MySqlConnection connection;
 
@@ -29,7 +29,7 @@ namespace PointOfSale.SqlDataAccess
 			return conn;
 		}
 
-		public Item getItemWith(string barcode)
+		public Item Read(string barcode)
 		{
 			const string sql = "SELECT barcode, name, price FROM ITEM WHERE barcode = @barcode";
 

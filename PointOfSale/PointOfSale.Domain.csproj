@@ -48,6 +48,7 @@
     <Compile Include="Display.cs" />
     <Compile Include="ReceiptFactory.cs" />
     <Compile Include="Receipt.cs" />
+    <Compile Include="ItemRegistryReader.cs" />
     <Compile Include="ItemRegistry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
