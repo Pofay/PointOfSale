@@ -6,6 +6,6 @@ namespace PointOfSale.Domain
 {
 	public interface ItemRegistry
 	{
-		IEnumerable<Item> getAvailableItems();
+		IEnumerable<Item> GetAvailableItems();
 	}
 }

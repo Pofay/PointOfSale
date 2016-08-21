@@ -3,7 +3,7 @@ namespace PointOfSale.Domain
 {
 	public interface ItemRegistryReader
 	{
-		Item getItemWith(string barcode);
+		Item Read(string barcode);
 	}
 }
 

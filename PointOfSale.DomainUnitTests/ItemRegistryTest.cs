@@ -21,16 +21,10 @@ namespace PointOfSale.DomainUnitTests
 			expected.Add(new Item("789010", "Fish", 10.25));
 
 			// Act
-			var actual = registry.getAvailableItems();
+			var actual = registry.GetAvailableItems();
 
 			// Assert
 			actual.ShouldBeEquivalentTo(expected);
-		}
-
-		[Fact]
-		public void basicTest()
-		{
-
 		}
 	}
 }

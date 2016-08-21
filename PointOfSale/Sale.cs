@@ -30,7 +30,7 @@ namespace PointOfSale.Domain
 
 		public void Scan(string barcode)
 		{
-			var item = repo.getItemWith(barcode);
+			var item = repo.Read(barcode);
 			totalPrice = decimal.Add(totalPrice, item.Price);
 			scannedItems.Add(item);
 			display.DisplayScannedItem(item);

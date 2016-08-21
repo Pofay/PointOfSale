@@ -79,7 +79,7 @@ namespace PointOfSale.DomainUnitTests
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
 			var sut = new Sale(registry, dummyDisplay.Object, dummyFactory.Object);
-			var expected = registry.getItemWith(barcode);
+			var expected = registry.Read(barcode);
 
 			// Act
 			sut.Scan(barcode);
@@ -97,7 +97,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var sale = new Sale(registry, sut.Object, dummy.Object);
-			var expected = registry.getItemWith("123456");
+			var expected = registry.Read("123456");
 
 			// Act
 			sale.Scan("123456");
@@ -114,7 +114,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var sale = new Sale(registry, sut.Object, stub.Object);
-			var item = registry.getItemWith("123456");
+			var item = registry.Read("123456");
 			var expected = new Receipt(item.Price);
 			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
 
