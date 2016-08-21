@@ -11,6 +11,7 @@ namespace PointOfSale.DomainUnitTests
 		[Fact]
 		public void ItShouldBeAbleToReturnAllItemsStored()
 		{
+			// Arrange
 			var registry = new InMemoryItemRegistry();
 			var expected = new List<Item>();
 			expected.Add(new Item("123456", "Bowl", 12.50));
@@ -19,9 +20,10 @@ namespace PointOfSale.DomainUnitTests
 			expected.Add(new Item("345670", "Plunger", 6.50));
 			expected.Add(new Item("789010", "Fish", 10.25));
 
+			// Act
 			var actual = registry.getAvailableItems();
 
-
+			// Assert
 			actual.ShouldBeEquivalentTo(expected);
 		}
 
