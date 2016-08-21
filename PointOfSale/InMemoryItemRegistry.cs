@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PointOfSale.Domain
 {
 
-	public class InMemoryItemRegistry : ItemRegistry
+	public class InMemoryItemRegistry : ItemRegistryReader
 	{
 		Dictionary<string, Item> items;
 

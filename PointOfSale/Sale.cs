@@ -11,7 +11,7 @@ namespace PointOfSale.Domain
 	{
 		private readonly List<Item> scannedItems;
 		private decimal totalPrice;
-		private readonly ItemRegistry repo;
+		private readonly ItemRegistryReader repo;
 		private readonly Display display;
 		private readonly ReceiptFactory factory;
 
@@ -20,7 +20,7 @@ namespace PointOfSale.Domain
 
 		// Display might be a decorator of some sort to prevent it to become a Header interface
 
-		public Sale(ItemRegistry repo, Display display, ReceiptFactory factory)
+		public Sale(ItemRegistryReader repo, Display display, ReceiptFactory factory)
 		{
 			this.repo = repo;
 			this.display = display;
