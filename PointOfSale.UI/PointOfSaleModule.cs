@@ -10,9 +10,13 @@ namespace PointOfSale.UI
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-			builder.Register(r => new MySqlItemRegistry
-							 (ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString))
+			string connectionString = ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString;
+
+			builder.RegisterTypes(typeof(MySqlItemRegistry))
+				   .Where(t => t.Name.StartsWith("MySql", StringComparison.Ordinal))
+				   .WithParameter("connectionString", connectionString)
 				   .AsImplementedInterfaces();
+
 			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
 			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
 			builder.RegisterType<Sale>().InstancePerDependency();
