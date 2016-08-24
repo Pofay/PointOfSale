@@ -19,7 +19,7 @@ namespace PointOfSale.UI
 
 			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
 			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
-			builder.RegisterType<Sale>().InstancePerDependency();
+			builder.RegisterType<PointOfSaleService>().InstancePerDependency();
 		}
 	}
 }

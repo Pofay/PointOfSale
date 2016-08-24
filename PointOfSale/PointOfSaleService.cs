@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PointOfSale.Domain
 {
 
-	public class Sale
+	public class PointOfSaleService
 	{
 		private readonly List<Item> scannedItems;
 		private readonly ItemRegistryReader repo;
@@ -19,7 +19,7 @@ namespace PointOfSale.Domain
 
 		// Display might be a decorator of some sort to prevent it to become a Header interface
 
-		public Sale(ItemRegistryReader repo, Display display, ReceiptFactory factory)
+		public PointOfSaleService(ItemRegistryReader repo, Display display, ReceiptFactory factory)
 		{
 			this.repo = repo;
 			this.display = display;

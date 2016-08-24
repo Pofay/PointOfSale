@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaleTest.cs" />
+    <Compile Include="PointOfSaleServiceTest.cs" />
     <Compile Include="AutoMoqDataAttribute.cs" />
     <Compile Include="ItemRegistryTest.cs" />
   </ItemGroup>

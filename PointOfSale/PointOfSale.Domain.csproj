@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="InMemoryItemRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sale.cs" />
+    <Compile Include="PointOfSaleService.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="ReceiptFactory.cs" />

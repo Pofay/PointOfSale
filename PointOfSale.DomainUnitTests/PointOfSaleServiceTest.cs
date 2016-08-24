@@ -8,7 +8,7 @@ using Xunit.Extensions;
 
 namespace PointOfSale.DomainUnitTests
 {
-	public class SaleTest
+	public class PointOfSaleServiceTest
 	{
 		int numOfDecimalPlaces = 1;
 
@@ -23,7 +23,7 @@ namespace PointOfSale.DomainUnitTests
 			var itemRepo = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
+			var sut = new PointOfSaleService(itemRepo, dummyDisplay.Object, dummyFactory.Object);
 
 			// Act
 			sut.Scan(barcode);
@@ -42,7 +42,7 @@ namespace PointOfSale.DomainUnitTests
 			var itemRepo = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new Sale(itemRepo, dummyDisplay.Object, dummyFactory.Object);
+			var sut = new PointOfSaleService(itemRepo, dummyDisplay.Object, dummyFactory.Object);
 
 			// Act
 			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
@@ -59,7 +59,7 @@ namespace PointOfSale.DomainUnitTests
 			Mock<ReceiptFactory> dummyFactory)
 		{
 			// Arrange
-			var sut = new Sale(registry, dummyDisplay.Object, dummyFactory.Object);
+			var sut = new PointOfSaleService(registry, dummyDisplay.Object, dummyFactory.Object);
 			string emptyBarcode = "";
 
 			// Act
@@ -78,7 +78,7 @@ namespace PointOfSale.DomainUnitTests
 			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new Sale(registry, dummyDisplay.Object, dummyFactory.Object);
+			var sut = new PointOfSaleService(registry, dummyDisplay.Object, dummyFactory.Object);
 			var expected = registry.Read(barcode);
 
 			// Act
@@ -96,7 +96,7 @@ namespace PointOfSale.DomainUnitTests
 			Mock<ReceiptFactory> dummy)
 		{
 			// Arrange
-			var sale = new Sale(registry, sut.Object, dummy.Object);
+			var sale = new PointOfSaleService(registry, sut.Object, dummy.Object);
 			var expected = registry.Read("123456");
 
 			// Act
@@ -113,7 +113,7 @@ namespace PointOfSale.DomainUnitTests
 			[Frozen] Mock<Display> sut)
 		{
 			// Arrange
-			var sale = new Sale(registry, sut.Object, stub.Object);
+			var sale = new PointOfSaleService(registry, sut.Object, stub.Object);
 			var item = registry.Read("123456");
 			var expected = new Receipt(item.Price);
 			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
