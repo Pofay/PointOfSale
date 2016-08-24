@@ -21,7 +21,7 @@ namespace PointOfSale.UI
 			using (container.BeginLifetimeScope())
 			{
 
-				var sale = container.Resolve<Sale>();
+				var sale = container.Resolve<PointOfSaleService>();
 				bool exit = false;
 				while (!exit)
 				{

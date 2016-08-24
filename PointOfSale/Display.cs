@@ -1,9 +1,6 @@
 ﻿namespace PointOfSale.Domain
 {
-	public interface Display
+	public interface Display : ItemDisplay, ReceiptDisplay
 	{
-		void DisplayScannedItem(Item item);
-
-		void DisplayReceipt(Receipt receipt);
 	}
 }
