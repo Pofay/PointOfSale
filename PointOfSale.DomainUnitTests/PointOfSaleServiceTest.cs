@@ -23,7 +23,9 @@ namespace PointOfSale.DomainUnitTests
 			var itemRepo = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new PointOfSaleService(itemRepo, dummyDisplay.Object, dummyFactory.Object);
+			var itemService = new ItemService(itemRepo, dummyDisplay.Object);
+			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
+			var sut = new PointOfSaleService(itemService, receiptService);
 
 			// Act
 			sut.Scan(barcode);
@@ -42,7 +44,9 @@ namespace PointOfSale.DomainUnitTests
 			var itemRepo = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new PointOfSaleService(itemRepo, dummyDisplay.Object, dummyFactory.Object);
+			var itemService = new ItemService(itemRepo, dummyDisplay.Object);
+			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
+			var sut = new PointOfSaleService(itemService, receiptService);
 
 			// Act
 			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
@@ -59,7 +63,9 @@ namespace PointOfSale.DomainUnitTests
 			Mock<ReceiptFactory> dummyFactory)
 		{
 			// Arrange
-			var sut = new PointOfSaleService(registry, dummyDisplay.Object, dummyFactory.Object);
+			var itemService = new ItemService(registry, dummyDisplay.Object);
+			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
+			var sut = new PointOfSaleService(itemService, receiptService);
 			string emptyBarcode = "";
 
 			// Act
@@ -70,6 +76,7 @@ namespace PointOfSale.DomainUnitTests
 			Assert.Equal(expected, sut.SubTotal, numOfDecimalPlaces);
 		}
 
+
 		[Theory]
 		[InlineData("123456")]
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
@@ -78,7 +85,9 @@ namespace PointOfSale.DomainUnitTests
 			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var sut = new PointOfSaleService(registry, dummyDisplay.Object, dummyFactory.Object);
+			var itemService = new ItemService(registry, dummyDisplay.Object);
+			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
+			var sut = new PointOfSaleService(itemService, receiptService);
 			var expected = registry.Read(barcode);
 
 			// Act
@@ -96,7 +105,9 @@ namespace PointOfSale.DomainUnitTests
 			Mock<ReceiptFactory> dummy)
 		{
 			// Arrange
-			var sale = new PointOfSaleService(registry, sut.Object, dummy.Object);
+			var itemService = new ItemService(registry, sut.Object);
+			var receiptService = new ReceiptService(dummy.Object, sut.Object);
+			var sale = new PointOfSaleService(itemService, receiptService);
 			var expected = registry.Read("123456");
 
 			// Act
@@ -113,7 +124,9 @@ namespace PointOfSale.DomainUnitTests
 			[Frozen] Mock<Display> sut)
 		{
 			// Arrange
-			var sale = new PointOfSaleService(registry, sut.Object, stub.Object);
+			var itemService = new ItemService(registry, sut.Object);
+			var receiptService = new ReceiptService(stub.Object, sut.Object);
+			var sale = new PointOfSaleService(itemService, receiptService);
 			var item = registry.Read("123456");
 			var expected = new Receipt(item.Price);
 			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
@@ -125,6 +138,7 @@ namespace PointOfSale.DomainUnitTests
 			// Assert
 			sut.Verify(s => s.DisplayReceipt(expected));
 		}
+
 	}
 
 }

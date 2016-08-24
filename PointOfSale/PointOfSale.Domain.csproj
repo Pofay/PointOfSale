@@ -50,6 +50,10 @@
     <Compile Include="Receipt.cs" />
     <Compile Include="ItemRegistryReader.cs" />
     <Compile Include="ItemRegistry.cs" />
+    <Compile Include="ItemService.cs" />
+    <Compile Include="ItemDisplay.cs" />
+    <Compile Include="ReceiptService.cs" />
+    <Compile Include="ReceiptDisplay.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
