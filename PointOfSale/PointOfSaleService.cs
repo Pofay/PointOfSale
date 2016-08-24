@@ -30,6 +30,7 @@ namespace PointOfSale.Domain
 		public void OnCompleteSale()
 		{
 			receiptService.CreateReceipt(SubTotal);
+			scannedItems.Clear();
 		}
 	}
 
