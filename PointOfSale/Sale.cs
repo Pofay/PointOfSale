@@ -10,12 +10,11 @@ namespace PointOfSale.Domain
 	public class Sale
 	{
 		private readonly List<Item> scannedItems;
-		private decimal totalPrice;
 		private readonly ItemRegistryReader repo;
 		private readonly Display display;
 		private readonly ReceiptFactory factory;
 
-		public decimal TotalPrice { get { return totalPrice; } }
+		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
 		// Display might be a decorator of some sort to prevent it to become a Header interface
@@ -31,14 +30,13 @@ namespace PointOfSale.Domain
 		public void Scan(string barcode)
 		{
 			var item = repo.Read(barcode);
-			totalPrice = decimal.Add(totalPrice, item.Price);
 			scannedItems.Add(item);
 			display.DisplayScannedItem(item);
 		}
 
 		public void OnCompleteSale()
 		{
-			var receipt = factory.CreateReceiptFrom(totalPrice);
+			var receipt = factory.CreateReceiptFrom(SubTotal);
 			display.DisplayReceipt(receipt);
 		}
 	}

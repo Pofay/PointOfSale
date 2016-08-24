@@ -29,7 +29,7 @@ namespace PointOfSale.DomainUnitTests
 			sut.Scan(barcode);
 
 			// Assert
-			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
+			Assert.Equal(expected, sut.SubTotal, numOfDecimalPlaces);
 		}
 
 
@@ -48,7 +48,7 @@ namespace PointOfSale.DomainUnitTests
 			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
 
 			// Assert
-			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
+			Assert.Equal(expected, sut.SubTotal, numOfDecimalPlaces);
 		}
 
 
@@ -67,7 +67,7 @@ namespace PointOfSale.DomainUnitTests
 
 			// Assert
 			var expected = new decimal(0);
-			Assert.Equal(expected, sut.TotalPrice, numOfDecimalPlaces);
+			Assert.Equal(expected, sut.SubTotal, numOfDecimalPlaces);
 		}
 
 		[Theory]
