@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using PointOfSale.Domain;
 
 namespace PointOfSale.UI
@@ -9,10 +10,12 @@ namespace PointOfSale.UI
 		{
 		}
 
-		public Receipt CreateReceiptFrom(decimal price)
+		public Receipt CreateReceiptFrom(IEnumerable<Item> items)
 		{
-			return new Receipt(price);
+			return new Receipt(items);
 		}
+
+
 	}
 }
 

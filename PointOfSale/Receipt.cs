@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PointOfSale.Domain
 {
@@ -13,11 +14,12 @@ namespace PointOfSale.Domain
 
 		public override string ToString()
 		{
-			var receiptFormat = string.Empty;
+			var receiptFormat = "Receipt For Transaction\n";
 			foreach (var item in items)
 			{
-				receiptFormat += string.Format("Item Name: {0} Price: {1}", item.Name, item.Price);
+				receiptFormat += string.Format("Item Name: {0} Price: {1}\n", item.Name, item.Price);
 			}
+			receiptFormat += string.Format("Sub Total: {0}", items.Sum(i => i.Price));
 			return receiptFormat;
 		}
 	}
