@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.Domain
 {
-
 	public class PointOfSaleService
 	{
 		private readonly List<Item> scannedItems;
@@ -15,8 +14,6 @@ namespace PointOfSale.Domain
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
-
-		// Display might be a decorator of some sort to prevent it to become a Header interface
 
 		public PointOfSaleService(ItemService itemService, ReceiptService receiptService)
 		{
