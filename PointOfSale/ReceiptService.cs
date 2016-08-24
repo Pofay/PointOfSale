@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace PointOfSale.Domain
 {
 	public class ReceiptService
@@ -12,9 +14,9 @@ namespace PointOfSale.Domain
 			this.display = display;
 		}
 
-		public void CreateReceipt(decimal subTotal)
+		public void CreateReceipt(IEnumerable<Item> items)
 		{
-			display.DisplayReceipt(factory.CreateReceiptFrom(subTotal));
+			display.DisplayReceipt(factory.CreateReceiptFrom(items));
 		}
 	}
 }

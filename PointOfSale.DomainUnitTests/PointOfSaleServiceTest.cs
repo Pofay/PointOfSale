@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Moq;
 using Ploeh.AutoFixture.Xunit;
@@ -118,7 +119,7 @@ namespace PointOfSale.DomainUnitTests
 		}
 
 		[Theory, AutoMoqData]
-		public void CompleteSaleDisplaysReceipt(
+		public void CompleteSaleDisplaysReceiptAndClearsScannedItems(
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<ReceiptFactory> stub,
 			[Frozen] Mock<Display> sut)
@@ -127,9 +128,8 @@ namespace PointOfSale.DomainUnitTests
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(stub.Object, sut.Object);
 			var sale = new PointOfSaleService(itemService, receiptService);
-			var item = registry.Read("123456");
-			var expected = new Receipt(item.Price);
-			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
+			var expected = new Receipt(sale.ScannedItems);
+			stub.Setup(s => s.CreateReceiptFrom(sale.ScannedItems)).Returns(expected);
 
 			// Act
 			sale.Scan("123456");
@@ -137,30 +137,9 @@ namespace PointOfSale.DomainUnitTests
 
 			// Assert
 			sut.Verify(s => s.DisplayReceipt(expected));
-		}
-
-		[Theory, AutoMoqData]
-		public void CompleteSaleClearsScannedItems(
-			InMemoryItemRegistry registry,
-			[Frozen] Mock<ReceiptFactory> stub,
-			[Frozen] Mock<Display> display)
-		{
-			// Arrange
-			var item = registry.Read("123456");
-			var expected = new Receipt(item.Price);
-			stub.Setup(s => s.CreateReceiptFrom(item.Price)).Returns(expected);
-
-			var itemService = new ItemService(registry, display.Object);
-			var receiptService = new ReceiptService(stub.Object, display.Object);
-			var sale = new PointOfSaleService(itemService, receiptService);
-
-			// Act
-			sale.Scan("123456");
-			sale.OnCompleteSale();
-
-			// Assert
 			sale.ScannedItems.Should().BeEmpty();
 		}
+
 
 	}
 

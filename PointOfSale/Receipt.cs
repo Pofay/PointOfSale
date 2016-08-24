@@ -1,17 +1,24 @@
-﻿namespace PointOfSale.Domain
+﻿using System.Collections.Generic;
+
+namespace PointOfSale.Domain
 {
 	public class Receipt
 	{
-		private readonly decimal price;
+		private readonly IEnumerable<Item> items;
 
-		public Receipt(decimal totalPrice)
+		public Receipt(IEnumerable<Item> items)
 		{
-			this.price = totalPrice;
+			this.items = items;
 		}
 
 		public override string ToString()
 		{
-			return string.Format("Total Price:D {0}", price);
+			var receiptFormat = string.Empty;
+			foreach (var item in items)
+			{
+				receiptFormat += string.Format("Item Name: {0} Price: {1}", item.Name, item.Price);
+			}
+			return receiptFormat;
 		}
 	}
 }

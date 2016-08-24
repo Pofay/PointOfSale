@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PointOfSale.Domain
 {
 	public interface ReceiptFactory
 	{
-		Receipt CreateReceiptFrom(decimal price);
+		Receipt CreateReceiptFrom(IEnumerable<Item> items);
 	}
 }
