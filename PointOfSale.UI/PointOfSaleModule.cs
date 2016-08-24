@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using Autofac;
+using Autofac.Features.ResolveAnything;
 using PointOfSale.Domain;
 using PointOfSale.SqlDataAccess;
 
@@ -19,7 +20,8 @@ namespace PointOfSale.UI
 
 			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
 			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
-			builder.RegisterType<PointOfSaleService>().InstancePerDependency();
+
+			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 		}
 	}
 }

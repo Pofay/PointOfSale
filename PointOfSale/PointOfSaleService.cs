@@ -31,8 +31,6 @@ namespace PointOfSale.Domain
 		{
 			receiptService.CreateReceipt(SubTotal);
 		}
-
-
 	}
 
 }

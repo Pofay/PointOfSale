@@ -8,7 +8,6 @@ namespace PointOfSale.Domain
 		private readonly ItemDisplay display;
 		private readonly ItemRegistryReader reader;
 
-
 		public ItemService(ItemRegistryReader reader, ItemDisplay display)
 		{
 			this.reader = reader;
