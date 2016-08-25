@@ -25,9 +25,10 @@ namespace PointOfSale.DomainUnitTests
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
 			var dummyRepo = new Mock<OrderRepository>();
+			var dummyGenerator = new Mock<TransactionIdGenerator>();
 			var itemService = new ItemService(registry, dummyDisplay.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object);
+			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object, dummyGenerator.Object);
 
 			// Act
 			sut.Scan(barcode);
