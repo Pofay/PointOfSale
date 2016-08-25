@@ -146,24 +146,28 @@ namespace PointOfSale.DomainUnitTests
 			sale.ScannedItems.Should().BeEmpty();
 		}
 
-		[Fact]
-		public void ServiceCreatesOrderOnCompleteSale()
+		[Theory]
+		[InlineData("123456", 11234)]
+		[InlineData("456789", 44556)]
+		public void ServiceCreatesOrderOnCompleteSale(string barcode, int transactionId)
 		{
 			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
+			var stub = new Mock<TransactionIdGenerator>();
 			var itemService = new ItemService(registry, dummyDisplay.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
 			var sut = new Mock<OrderRepository>();
-			var sale = new PointOfSaleService(itemService, receiptService, sut.Object);
-			sale.Scan("123456");
+			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
+			var sale = new PointOfSaleService(itemService, receiptService, sut.Object, stub.Object);
+			sale.Scan(barcode);
 			var expected = sale.ScannedItems.ToList();
 
 			// Act
 			sale.OnCompleteSale();
 
 			// Assert
-			sut.Verify(s => s.CreateOrder(11234, expected));
+			sut.Verify(s => s.CreateOrder(transactionId, expected));
 		}
 
 
