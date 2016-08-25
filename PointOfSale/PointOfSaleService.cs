@@ -34,19 +34,12 @@ namespace PointOfSale.Domain
 
 		public void OnCompleteSale()
 		{
-			if (idGenerator != null)
-			{
-				int transactionId = idGenerator.GenerateTransactionId();
-				repo.CreateOrder(transactionId, scannedItems.ToList());
-				receiptService.CreateReceipt(scannedItems.ToList());
-				scannedItems.Clear();
 
-			}
-			else {
-				repo.CreateOrder(11234, scannedItems.ToList());
-				receiptService.CreateReceipt(scannedItems.ToList());
-				scannedItems.Clear();
-			}
+			int transactionId = idGenerator.GenerateTransactionId();
+			repo.CreateOrder(transactionId, scannedItems.ToList());
+			receiptService.CreateReceipt(scannedItems.ToList());
+			scannedItems.Clear();
+
 
 		}
 	}
