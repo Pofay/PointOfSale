@@ -128,13 +128,12 @@ namespace PointOfSale.DomainUnitTests
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(stub.Object, sut.Object);
 			var sale = new PointOfSaleService(itemService, receiptService);
+			sale.Scan("123456");
 			var expected = new Receipt(sale.ScannedItems);
 			stub.Setup(s => s.CreateReceiptFrom(sale.ScannedItems)).Returns(expected);
 
 			// Act
-			sale.Scan("123456");
 			sale.OnCompleteSale();
-
 			// Assert
 			sut.Verify(s => s.DisplayReceipt(expected));
 			sale.ScannedItems.Should().BeEmpty();

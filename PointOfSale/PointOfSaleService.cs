@@ -29,6 +29,7 @@ namespace PointOfSale.Domain
 
 		public void OnCompleteSale()
 		{
+			// repo.CreateOrderFrom(scannedItems.ToList());
 			receiptService.CreateReceipt(scannedItems.ToList());
 			scannedItems.Clear();
 		}
