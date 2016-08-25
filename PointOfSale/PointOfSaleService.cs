@@ -12,15 +12,10 @@ namespace PointOfSale.Domain
 		private readonly ItemService itemService;
 		private readonly ReceiptService receiptService;
 		private readonly OrderRepository repo;
-		private TransactionIdGenerator idGenerator;
+		private readonly TransactionIdGenerator idGenerator;
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
-
-		public PointOfSaleService(ItemService itemService, ReceiptService receiptService, OrderRepository repo)
-			: this(itemService, receiptService, repo, null)
-		{
-		}
 
 		public PointOfSaleService(ItemService itemService, ReceiptService receiptService,
 								  OrderRepository repo, TransactionIdGenerator generator)
