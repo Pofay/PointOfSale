@@ -5,6 +5,6 @@ namespace PointOfSale.Domain
 {
 	public interface ReceiptFactory
 	{
-		Receipt CreateReceiptFrom(IEnumerable<Item> items);
+		Receipt CreateReceiptFrom(int transactionId, IEnumerable<Item> items);
 	}
 }

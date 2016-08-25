@@ -110,15 +110,17 @@ namespace PointOfSale.DomainUnitTests
 			[Frozen] Mock<ReceiptFactory> stub,
 			Mock<OrderRepository> dummy,
 			[Frozen] Mock<Display> sut,
-			Mock<TransactionIdGenerator> dummyGenerator)
+			Mock<TransactionIdGenerator> stubGenerator)
 		{
 			// Arrange
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(stub.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService, dummy.Object, dummyGenerator.Object);
+			var sale = new PointOfSaleService(itemService, receiptService, dummy.Object, stubGenerator.Object);
 			sale.Scan("123456");
-			var expected = new Receipt(sale.ScannedItems);
-			stub.Setup(s => s.CreateReceiptFrom(sale.ScannedItems)).Returns(expected);
+			var transactionId = 334456;
+			var expected = new Receipt(transactionId, sale.ScannedItems);
+			stubGenerator.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
+			stub.Setup(s => s.CreateReceiptFrom(transactionId, sale.ScannedItems)).Returns(expected);
 
 			// Act
 			sale.OnCompleteSale();

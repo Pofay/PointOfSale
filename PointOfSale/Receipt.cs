@@ -7,8 +7,11 @@ namespace PointOfSale.Domain
 	{
 		private readonly IEnumerable<Item> items;
 
-		public Receipt(IEnumerable<Item> items)
+		private readonly int id;
+
+		public Receipt(int transactionId, IEnumerable<Item> items)
 		{
+			this.id = transactionId;
 			this.items = items;
 		}
 
