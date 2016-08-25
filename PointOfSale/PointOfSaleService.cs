@@ -13,9 +13,6 @@ namespace PointOfSale.Domain
 		private readonly ReceiptService receiptService;
 		private readonly OrderRepository repo;
 
-
-
-
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
