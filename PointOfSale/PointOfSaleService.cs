@@ -11,7 +11,7 @@ namespace PointOfSale.Domain
 		private readonly List<Item> scannedItems;
 		private readonly ItemService itemService;
 		private readonly ReceiptService receiptService;
-		private OrderRepository repo;
+		private readonly OrderRepository repo;
 
 
 
@@ -19,11 +19,6 @@ namespace PointOfSale.Domain
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
-		public PointOfSaleService(ItemService itemService, ReceiptService receiptService) :
-		this(itemService, receiptService, null)
-		{
-
-		}
 
 		public PointOfSaleService(ItemService itemService, ReceiptService receiptService, OrderRepository repo)
 		{
@@ -40,8 +35,8 @@ namespace PointOfSale.Domain
 
 		public void OnCompleteSale()
 		{
-			if (repo != null)
-				repo.CreateOrder(11234, scannedItems.ToList());
+
+			repo.CreateOrder(11234, scannedItems.ToList());
 			receiptService.CreateReceipt(scannedItems.ToList());
 			scannedItems.Clear();
 		}

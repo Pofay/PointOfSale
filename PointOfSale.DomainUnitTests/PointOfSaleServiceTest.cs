@@ -21,12 +21,13 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var expected = new decimal(price);
-			var itemRepo = new InMemoryItemRegistry();
+			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var itemService = new ItemService(itemRepo, dummyDisplay.Object);
+			var dummyRepo = new Mock<OrderRepository>();
+			var itemService = new ItemService(registry, dummyDisplay.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService);
+			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object);
 
 			// Act
 			sut.Scan(barcode);
@@ -42,12 +43,13 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var expected = new decimal(price);
-			var itemRepo = new InMemoryItemRegistry();
+			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
-			var itemService = new ItemService(itemRepo, dummyDisplay.Object);
+			var dummyRepo = new Mock<OrderRepository>();
+			var itemService = new ItemService(registry, dummyDisplay.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService);
+			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object);
 
 			// Act
 			barcodes.ToList().ForEach(barcode => sut.Scan(barcode));
@@ -61,12 +63,13 @@ namespace PointOfSale.DomainUnitTests
 		public void GetTotalPriceOnEmptyBarcodeReturns0Price(
 			InMemoryItemRegistry registry,
 			Mock<Display> dummyDisplay,
-			Mock<ReceiptFactory> dummyFactory)
+			Mock<ReceiptFactory> dummyFactory,
+			Mock<OrderRepository> dummyRepo)
 		{
 			// Arrange
 			var itemService = new ItemService(registry, dummyDisplay.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService);
+			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object);
 			string emptyBarcode = "";
 
 			// Act
@@ -86,9 +89,10 @@ namespace PointOfSale.DomainUnitTests
 			var registry = new InMemoryItemRegistry();
 			var dummyDisplay = new Mock<Display>();
 			var dummyFactory = new Mock<ReceiptFactory>();
+			var dummyRepo = new Mock<OrderRepository>();
 			var itemService = new ItemService(registry, dummyDisplay.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService);
+			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object);
 			var expected = registry.Read(barcode);
 
 			// Act
@@ -103,12 +107,13 @@ namespace PointOfSale.DomainUnitTests
 		public void ScannedItemIsDisplayed(
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<Display> sut,
-			Mock<ReceiptFactory> dummy)
+			Mock<OrderRepository> dummyRepo,
+			Mock<ReceiptFactory> dummyFactory)
 		{
 			// Arrange
 			var itemService = new ItemService(registry, sut.Object);
-			var receiptService = new ReceiptService(dummy.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService);
+			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object);
+			var sale = new PointOfSaleService(itemService, receiptService, dummyRepo.Object);
 			var expected = registry.Read("123456");
 
 			// Act
@@ -122,12 +127,13 @@ namespace PointOfSale.DomainUnitTests
 		public void CompleteSaleDisplaysReceiptAndClearsScannedItems(
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<ReceiptFactory> stub,
+			Mock<OrderRepository> dummy,
 			[Frozen] Mock<Display> sut)
 		{
 			// Arrange
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(stub.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService);
+			var sale = new PointOfSaleService(itemService, receiptService, dummy.Object);
 			sale.Scan("123456");
 			var expected = new Receipt(sale.ScannedItems);
 			stub.Setup(s => s.CreateReceiptFrom(sale.ScannedItems)).Returns(expected);
