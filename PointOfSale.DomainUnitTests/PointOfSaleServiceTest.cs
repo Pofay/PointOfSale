@@ -134,9 +134,30 @@ namespace PointOfSale.DomainUnitTests
 
 			// Act
 			sale.OnCompleteSale();
+
 			// Assert
 			sut.Verify(s => s.DisplayReceipt(expected));
 			sale.ScannedItems.Should().BeEmpty();
+		}
+
+		[Fact]
+		public void ServiceCreatesOrderOnCompleteSale()
+		{
+			var registry = new InMemoryItemRegistry();
+			var dummyDisplay = new Mock<Display>();
+			var dummyFactory = new Mock<ReceiptFactory>();
+			var itemService = new ItemService(registry, dummyDisplay.Object);
+			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
+			var sut = new Mock<OrderRepository>();
+			var sale = new PointOfSaleService(itemService, receiptService, sut.Object);
+			sale.Scan("123456");
+			var expected = sale.ScannedItems.ToList();
+
+			// Act
+			sale.OnCompleteSale();
+
+			// Assert
+			sut.Verify(s => s.CreateOrder(11234, expected));
 		}
 
 
