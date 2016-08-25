@@ -43,6 +43,8 @@ namespace PointOfSale.Domain
 			{
 				int transactionId = idGenerator.GenerateTransactionId();
 				repo.CreateOrder(transactionId, scannedItems.ToList());
+				receiptService.CreateReceipt(scannedItems.ToList());
+				scannedItems.Clear();
 
 			}
 			else {
