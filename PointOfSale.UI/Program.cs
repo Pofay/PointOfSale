@@ -11,7 +11,8 @@ namespace PointOfSale.UI
 		public static void Main(string[] args)
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterModule(new PointOfSaleModule());
+			//	builder.RegisterModule(new ProductionModule());
+			builder.RegisterModule(new DevelopmentModule());
 			var container = builder.Build();
 			var installer = new DBInstaller();
 

@@ -18,7 +18,7 @@ namespace PointOfSale.Domain
 		{
 			var item = reader.Read(barcode);
 			items.Add(item);
-			display.DisplayScannedItem(item);
+			display.DisplayItem(item);
 		}
 	}
 }

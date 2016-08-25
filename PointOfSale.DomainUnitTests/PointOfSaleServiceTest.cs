@@ -101,7 +101,7 @@ namespace PointOfSale.DomainUnitTests
 			sale.Scan("123456");
 
 			// Assert
-			sut.Verify(s => s.DisplayScannedItem(expected));
+			sut.Verify(s => s.DisplayItem(expected));
 		}
 
 		[Theory, AutoMoqData]

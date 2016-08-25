@@ -7,7 +7,7 @@ using PointOfSale.SqlDataAccess;
 
 namespace PointOfSale.UI
 {
-	public class PointOfSaleModule : Module
+	public class DevelopmentModule : Module
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
@@ -21,8 +21,11 @@ namespace PointOfSale.UI
 			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
 			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
 
+			builder.RegisterType<NullObjectOrderRepository>().AsImplementedInterfaces();
+			builder.RegisterType<NullTransactionIdGenerator>().AsImplementedInterfaces();
 			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 		}
 	}
+
 }
 
