@@ -17,7 +17,7 @@ namespace PointOfSale.Domain
 
 		public override string ToString()
 		{
-			var receiptFormat = "Receipt For Transaction\n";
+			var receiptFormat = string.Format("Receipt For Transaction {0}\n", id); ;
 			foreach (var item in items)
 			{
 				receiptFormat += string.Format("Item Name: {0} Price: {1}\n", item.Name, item.Price);
