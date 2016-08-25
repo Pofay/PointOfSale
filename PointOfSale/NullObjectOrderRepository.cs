@@ -6,7 +6,7 @@ namespace PointOfSale.Domain
 	public class NullObjectOrderRepository : OrderRepository
 	{
 
-		public void CreateOrder(int transactionId, IEnumerable<Item> orderItems)
+		public void FulFillOrder(int transactionId, IEnumerable<Item> orderItems)
 		{
 
 		}

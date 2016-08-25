@@ -5,7 +5,7 @@ namespace PointOfSale.Domain
 {
 	public interface OrderRepository
 	{
-		void CreateOrder(int transactionId, IEnumerable<Item> orderItems);
+		void FulFillOrder(int transactionId, IEnumerable<Item> orderItems);
 
 	}
 }

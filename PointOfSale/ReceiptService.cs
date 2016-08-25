@@ -14,7 +14,7 @@ namespace PointOfSale.Domain
 			this.display = display;
 		}
 
-		public void CreateReceipt(int transactionId, IEnumerable<Item> items)
+		public void FulFillOrder(int transactionId, IEnumerable<Item> items)
 		{
 			display.DisplayReceipt(factory.CreateReceiptFrom(transactionId, items));
 		}

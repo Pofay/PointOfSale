@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using Moq;
 using Ploeh.AutoFixture.Xunit;
@@ -107,20 +106,20 @@ namespace PointOfSale.DomainUnitTests
 		[Theory, AutoMoqData]
 		public void CompleteSaleDisplaysReceiptAndClearsScannedItems(
 			InMemoryItemRegistry registry,
-			[Frozen] Mock<ReceiptFactory> stub,
+			[Frozen] Mock<ReceiptFactory> stubFactory,
 			Mock<OrderRepository> dummy,
 			[Frozen] Mock<Display> sut,
 			Mock<TransactionIdGenerator> stubGenerator)
 		{
 			// Arrange
 			var itemService = new ItemService(registry, sut.Object);
-			var receiptService = new ReceiptService(stub.Object, sut.Object);
+			var receiptService = new ReceiptService(stubFactory.Object, sut.Object);
 			var sale = new PointOfSaleService(itemService, receiptService, dummy.Object, stubGenerator.Object);
 			sale.Scan("123456");
 			var transactionId = 334456;
 			var expected = new Receipt(transactionId, sale.ScannedItems);
 			stubGenerator.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
-			stub.Setup(s => s.CreateReceiptFrom(transactionId, sale.ScannedItems)).Returns(expected);
+			stubFactory.Setup(s => s.CreateReceiptFrom(transactionId, sale.ScannedItems)).Returns(expected);
 
 			// Act
 			sale.OnCompleteSale();
@@ -151,10 +150,8 @@ namespace PointOfSale.DomainUnitTests
 			sale.OnCompleteSale();
 
 			// Assert
-			sut.Verify(s => s.CreateOrder(transactionId, expected));
+			sut.Verify(s => s.FulFillOrder(transactionId, expected));
 		}
-
-
 	}
 
 }
