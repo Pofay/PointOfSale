@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using Moq;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoMoq;
+using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture.Xunit;
 using PointOfSale.Domain;
 using Xunit;
@@ -20,14 +23,10 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var expected = new decimal(price);
-			var registry = new InMemoryItemRegistry();
-			var dummyDisplay = new Mock<Display>();
-			var dummyFactory = new Mock<ReceiptFactory>();
-			var dummyRepo = new Mock<OrderRepository>();
-			var dummyGenerator = new Mock<TransactionIdGenerator>();
-			var itemService = new ItemService(registry, dummyDisplay.Object);
-			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object, dummyGenerator.Object);
+			var fixture = new Fixture();
+			fixture.Customize(new AutoMoqCustomization());
+			fixture.Customizations.Add(new TypeRelay(typeof(ItemRegistryReader), typeof(InMemoryItemRegistry)));
+			var sut = fixture.Create<PointOfSaleService>();
 
 			// Act
 			sut.Scan(barcode);
@@ -64,14 +63,11 @@ namespace PointOfSale.DomainUnitTests
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
 			// Arrange
-			var registry = new InMemoryItemRegistry();
-			var dummyDisplay = new Mock<Display>();
-			var dummyFactory = new Mock<ReceiptFactory>();
-			var dummyRepo = new Mock<OrderRepository>();
-			var dummyGenerator = new Mock<TransactionIdGenerator>();
-			var itemService = new ItemService(registry, dummyDisplay.Object);
-			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new PointOfSaleService(itemService, receiptService, dummyRepo.Object, dummyGenerator.Object);
+			var fixture = new Fixture();
+			fixture.Customize(new AutoMoqCustomization());
+			fixture.Customizations.Add(new TypeRelay(typeof(ItemRegistryReader), typeof(InMemoryItemRegistry)));
+			var registry = fixture.Create<ItemRegistryReader>();
+			var sut = fixture.Create<PointOfSaleService>();
 			var expected = registry.Read(barcode);
 
 			// Act
@@ -108,10 +104,10 @@ namespace PointOfSale.DomainUnitTests
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<ReceiptFactory> stubFactory,
 			Mock<OrderRepository> dummy,
-			[Frozen] Mock<Display> sut,
 			Mock<TransactionIdGenerator> stubGenerator)
 		{
 			// Arrange
+			var sut = new Mock<Display>();
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(stubFactory.Object, sut.Object);
 			var sale = new PointOfSaleService(itemService, receiptService, dummy.Object, stubGenerator.Object);
@@ -129,22 +125,22 @@ namespace PointOfSale.DomainUnitTests
 			sale.ScannedItems.Should().BeEmpty();
 		}
 
+
 		[Theory]
 		[InlineData("123456", 11234)]
 		[InlineData("456789", 44556)]
 		public void ServiceCreatesOrderOnCompleteSale(string barcode, int transactionId)
 		{
-			var registry = new InMemoryItemRegistry();
-			var dummyDisplay = new Mock<Display>();
-			var dummyFactory = new Mock<ReceiptFactory>();
-			var stub = new Mock<TransactionIdGenerator>();
-			var itemService = new ItemService(registry, dummyDisplay.Object);
-			var receiptService = new ReceiptService(dummyFactory.Object, dummyDisplay.Object);
-			var sut = new Mock<OrderRepository>();
-			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
-			var sale = new PointOfSaleService(itemService, receiptService, sut.Object, stub.Object);
+			// Arrange
+			var fixture = new Fixture();
+			fixture.Customize(new AutoConfiguredMoqCustomization());
+			fixture.Customizations.Add(new TypeRelay(typeof(ItemRegistryReader), typeof(InMemoryItemRegistry)));
+			var stub = fixture.Freeze<Mock<TransactionIdGenerator>>();
+			var sut = fixture.Freeze<Mock<OrderRepository>>();
+			var sale = fixture.Create<PointOfSaleService>();
 			sale.Scan(barcode);
 			var expected = sale.ScannedItems.ToList();
+			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
 
 			// Act
 			sale.OnCompleteSale();
