@@ -54,7 +54,7 @@
     <Compile Include="ItemDisplay.cs" />
     <Compile Include="ReceiptService.cs" />
     <Compile Include="ReceiptDisplay.cs" />
-    <Compile Include="OrderRepository.cs" />
+    <Compile Include="OrderFulFiller.cs" />
     <Compile Include="TransactionIdGenerator.cs" />
     <Compile Include="NullObjectOrderRepository.cs" />
     <Compile Include="NullTransactionIdGenerator.cs" />

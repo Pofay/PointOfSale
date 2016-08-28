@@ -11,18 +11,18 @@ namespace PointOfSale.Domain
 		private readonly List<Item> scannedItems;
 		private readonly ItemService itemService;
 		private readonly ReceiptService receiptService;
-		private readonly OrderRepository repo;
+		private readonly OrderFulFiller orderFulFiller;
 		private readonly TransactionIdGenerator idGenerator;
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
 
 		public PointOfSaleService(ItemService itemService, ReceiptService receiptService,
-								  OrderRepository repo, TransactionIdGenerator generator)
+								  OrderFulFiller orderFulFiller, TransactionIdGenerator generator)
 		{
 			this.itemService = itemService;
 			this.receiptService = receiptService;
-			this.repo = repo;
+			this.orderFulFiller = orderFulFiller;
 			this.idGenerator = generator;
 			this.scannedItems = new List<Item>();
 		}
@@ -35,7 +35,7 @@ namespace PointOfSale.Domain
 		public void OnCompleteSale()
 		{
 			int transactionId = idGenerator.GenerateTransactionId();
-			repo.FulFillOrder(transactionId, scannedItems.ToList());
+			orderFulFiller.FulFillOrder(transactionId, scannedItems.ToList());
 			receiptService.FulFillOrder(transactionId, scannedItems.ToList());
 			scannedItems.Clear();
 		}
