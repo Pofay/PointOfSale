@@ -74,23 +74,21 @@ namespace PointOfSale.DomainUnitTests
 		}
 
 		[Theory]
-		[InlineData("123456", 11234)]
-		[InlineData("456789", 44556)]
-		public void ServiceCreatesOrderOnCompleteSale(string barcode, int transactionId)
+		[InlineData(11234)]
+		[InlineData(44556)]
+		public void ServiceCreatesOrderOnCompleteSale(int transactionId)
 		{
 			// Arrange
 			var stub = fixture.Freeze<Mock<TransactionIdGenerator>>();
 			var sut = fixture.Freeze<Mock<OrderFulFiller>>();
 			var sale = fixture.Create<PointOfSaleService>();
-			sale.Scan(barcode);
-			var expected = sale.ScannedItems.ToList();
 			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
 
 			// Act
 			sale.OnCompleteSale();
 
 			// Assert
-			sut.Verify(s => s.FulFillOrder(transactionId, expected));
+			sut.Verify(s => s.FulFillOrder(transactionId, sale.ScannedItems));
 		}
 	}
 

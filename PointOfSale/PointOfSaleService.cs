@@ -15,7 +15,7 @@ namespace PointOfSale.Domain
 		private readonly TransactionIdGenerator idGenerator;
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
-		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
+		public IList<Item> ScannedItems { get { return scannedItems; } }
 
 		public PointOfSaleService(ItemService itemService, ReceiptService receiptService,
 								  OrderFulFiller orderFulFiller, TransactionIdGenerator generator)
