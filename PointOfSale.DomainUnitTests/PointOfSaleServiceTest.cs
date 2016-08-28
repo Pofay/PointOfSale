@@ -24,6 +24,21 @@ namespace PointOfSale.DomainUnitTests
 			fixture.Customizations.Add(new TypeRelay(typeof(ItemRegistryReader), typeof(InMemoryItemRegistry)));
 		}
 
+		[Fact]
+		public void GetTotalPriceOnEmptyBarcodeReturns0Price()
+		{
+			// Arrange
+			var sut = fixture.Create<PointOfSaleService>();
+			string emptyBarcode = "";
+
+			// Act
+			sut.Scan(emptyBarcode);
+
+			// Assert
+			var expected = new decimal(0);
+			Assert.Equal(expected, sut.SubTotal, numOfDecimalPlaces);
+		}
+
 		[Theory]
 		[InlineData("123456", 12.50)]
 		[InlineData("456789", 24.50)]
