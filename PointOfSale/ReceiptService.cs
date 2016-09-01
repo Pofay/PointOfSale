@@ -9,7 +9,6 @@ namespace PointOfSale.Domain
 		readonly ReceiptDisplay display;
 		readonly TransactionIdGenerator generator;
 
-
 		public ReceiptService(ReceiptFactory factory, ReceiptDisplay display, TransactionIdGenerator generator)
 		{
 			this.factory = factory;

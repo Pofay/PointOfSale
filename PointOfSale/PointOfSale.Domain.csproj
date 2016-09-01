@@ -56,7 +56,7 @@
     <Compile Include="ReceiptDisplay.cs" />
     <Compile Include="OrderFulFiller.cs" />
     <Compile Include="TransactionIdGenerator.cs" />
-    <Compile Include="NullObjectOrderRepository.cs" />
+    <Compile Include="NullObjectOrderFulFiller.cs" />
     <Compile Include="NullTransactionIdGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
