@@ -8,29 +8,27 @@ namespace PointOfSale.Domain
 {
 	public class PointOfSaleService
 	{
-		private readonly List<Item> scannedItems;
 		private readonly ItemService itemService;
 		private readonly OrderFulFiller orderFulFiller;
 
-		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
-		public IList<Item> ScannedItems { get { return scannedItems; } }
+		public decimal SubTotal { get { return itemService.SubTotal; } }
+		public IList<Item> ScannedItems { get { return itemService.ScannedItems; } }
 
 		public PointOfSaleService(ItemService itemService, OrderFulFiller orderFulFiller)
 		{
 			this.itemService = itemService;
 			this.orderFulFiller = orderFulFiller;
-			this.scannedItems = new List<Item>();
 		}
 
 		public void Scan(string barcode)
 		{
-			itemService.AddItem(barcode, scannedItems);
+			itemService.AddItem(barcode);
 		}
 
 		public void OnCompleteSale()
 		{
-			orderFulFiller.FulFillOrder(scannedItems.ToList());
-			scannedItems.Clear();
+			orderFulFiller.FulFillOrder(ScannedItems.ToList());
+			ScannedItems.Clear();
 		}
 	}
 
