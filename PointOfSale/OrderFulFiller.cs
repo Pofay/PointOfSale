@@ -5,7 +5,7 @@ namespace PointOfSale.Domain
 {
 	public interface OrderFulFiller
 	{
-		void FulFillOrder(int transactionId, IEnumerable<Item> orderItems);
+		void FulFillOrder(IEnumerable<Item> orderItems);
 
 	}
 }

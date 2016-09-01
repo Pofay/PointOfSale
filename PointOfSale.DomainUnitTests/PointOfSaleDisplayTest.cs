@@ -26,8 +26,8 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var itemService = new ItemService(registry, sut.Object);
-			var receiptService = new ReceiptService(stubFactory.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService, stubGenerator.Object);
+			var receiptService = new ReceiptService(stubFactory.Object, sut.Object, stubGenerator.Object);
+			var sale = new PointOfSaleService(itemService, receiptService);
 
 			sale.Scan(barcode);
 
@@ -53,8 +53,8 @@ namespace PointOfSale.DomainUnitTests
 			// Arrange
 			string barcode = "123456";
 			var itemService = new ItemService(registry, sut.Object);
-			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService, dummyGenerator.Object);
+			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object, dummyGenerator.Object);
+			var sale = new PointOfSaleService(itemService, receiptService);
 			var expected = registry.Read(barcode);
 
 			// Act

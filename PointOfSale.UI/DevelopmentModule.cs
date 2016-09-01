@@ -23,6 +23,7 @@ namespace PointOfSale.UI
 
 			builder.RegisterType<NullObjectOrderRepository>().AsImplementedInterfaces();
 			builder.RegisterType<NullTransactionIdGenerator>().AsImplementedInterfaces();
+			builder.RegisterType<ReceiptService>().AsImplementedInterfaces();
 			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 		}
 	}

@@ -88,7 +88,7 @@ namespace PointOfSale.DomainUnitTests
 			sale.OnCompleteSale();
 
 			// Assert
-			sut.Verify(s => s.FulFillOrder(transactionId, sale.ScannedItems));
+			sut.Verify(s => s.FulFillOrder(sale.ScannedItems));
 		}
 	}
 
