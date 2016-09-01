@@ -21,14 +21,13 @@ namespace PointOfSale.DomainUnitTests
 			string barcode,
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<ReceiptFactory> stubFactory,
-			Mock<OrderFulFiller> dummy,
 			Mock<TransactionIdGenerator> stubGenerator,
 			Mock<Display> sut)
 		{
 			// Arrange
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(stubFactory.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService, dummy.Object, stubGenerator.Object);
+			var sale = new PointOfSaleService(itemService, receiptService, stubGenerator.Object);
 
 			sale.Scan(barcode);
 
@@ -48,7 +47,6 @@ namespace PointOfSale.DomainUnitTests
 		public void ScannedItemIsDisplayed(
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<Display> sut,
-			Mock<OrderFulFiller> dummyRepo,
 			Mock<ReceiptFactory> dummyFactory,
 			Mock<TransactionIdGenerator> dummyGenerator)
 		{
@@ -56,7 +54,7 @@ namespace PointOfSale.DomainUnitTests
 			string barcode = "123456";
 			var itemService = new ItemService(registry, sut.Object);
 			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object);
-			var sale = new PointOfSaleService(itemService, receiptService, dummyRepo.Object, dummyGenerator.Object);
+			var sale = new PointOfSaleService(itemService, receiptService, dummyGenerator.Object);
 			var expected = registry.Read(barcode);
 
 			// Act

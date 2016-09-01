@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PointOfSale.Domain
 {
-	public class ReceiptService
+	public class ReceiptService : OrderFulFiller
 	{
 		readonly ReceiptFactory factory;
 		readonly ReceiptDisplay display;
