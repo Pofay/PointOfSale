@@ -14,7 +14,7 @@ namespace PointOfSale.UI
 			Console.WriteLine(receipt.ToString());
 		}
 
-		public void DisplayScannedItem(Item item)
+		public void DisplayItem(Item item)
 		{
 			Console.WriteLine(item.ToString());
 		}

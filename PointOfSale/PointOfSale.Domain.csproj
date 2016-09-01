@@ -54,6 +54,10 @@
     <Compile Include="ItemDisplay.cs" />
     <Compile Include="ReceiptService.cs" />
     <Compile Include="ReceiptDisplay.cs" />
+    <Compile Include="OrderFulFiller.cs" />
+    <Compile Include="TransactionIdGenerator.cs" />
+    <Compile Include="NullObjectOrderRepository.cs" />
+    <Compile Include="NullTransactionIdGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

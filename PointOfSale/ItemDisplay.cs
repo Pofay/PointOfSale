@@ -3,7 +3,7 @@ namespace PointOfSale.Domain
 {
 	public interface ItemDisplay
 	{
-		void DisplayScannedItem(Item item);
+		void DisplayItem(Item item);
 	}
 }
 

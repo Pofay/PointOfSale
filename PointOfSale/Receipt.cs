@@ -7,14 +7,17 @@ namespace PointOfSale.Domain
 	{
 		private readonly IEnumerable<Item> items;
 
-		public Receipt(IEnumerable<Item> items)
+		private readonly int id;
+
+		public Receipt(int transactionId, IEnumerable<Item> items)
 		{
+			this.id = transactionId;
 			this.items = items;
 		}
 
 		public override string ToString()
 		{
-			var receiptFormat = "Receipt For Transaction\n";
+			var receiptFormat = string.Format("Receipt For Transaction {0}\n", id); ;
 			foreach (var item in items)
 			{
 				receiptFormat += string.Format("Item Name: {0} Price: {1}\n", item.Name, item.Price);

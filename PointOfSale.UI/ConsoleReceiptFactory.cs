@@ -10,9 +10,9 @@ namespace PointOfSale.UI
 		{
 		}
 
-		public Receipt CreateReceiptFrom(IEnumerable<Item> items)
+		public Receipt CreateReceiptFrom(int transactionId, IEnumerable<Item> items)
 		{
-			return new Receipt(items);
+			return new Receipt(transactionId, items);
 		}
 
 

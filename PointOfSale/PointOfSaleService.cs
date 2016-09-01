@@ -10,15 +10,15 @@ namespace PointOfSale.Domain
 	{
 		private readonly List<Item> scannedItems;
 		private readonly ItemService itemService;
-		private readonly ReceiptService receiptService;
+		private readonly OrderFulFiller orderFulFiller;
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
-		public IEnumerable<Item> ScannedItems { get { return scannedItems; } }
+		public IList<Item> ScannedItems { get { return scannedItems; } }
 
-		public PointOfSaleService(ItemService itemService, ReceiptService receiptService)
+		public PointOfSaleService(ItemService itemService, OrderFulFiller orderFulFiller)
 		{
 			this.itemService = itemService;
-			this.receiptService = receiptService;
+			this.orderFulFiller = orderFulFiller;
 			this.scannedItems = new List<Item>();
 		}
 
@@ -29,7 +29,7 @@ namespace PointOfSale.Domain
 
 		public void OnCompleteSale()
 		{
-			receiptService.CreateReceipt(scannedItems.ToList());
+			orderFulFiller.FulFillOrder(scannedItems.ToList());
 			scannedItems.Clear();
 		}
 	}
