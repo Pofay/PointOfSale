@@ -36,7 +36,7 @@ namespace PointOfSale.UI
 						case "SCAN":
 							Console.WriteLine("Enter Barcode: ");
 							var barcode = Console.ReadLine();
-							sale.OnBarcode(barcode);
+							sale.OnBarcodeScan(barcode);
 							Console.Read();
 							break;
 						case "COMPLETE":

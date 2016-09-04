@@ -14,7 +14,7 @@ namespace PointOfSale.UI
 			Console.WriteLine(receipt);
 		}
 
-		public void HandleScanEvent(object sender, ScanEventArgs args)
+		public void BarcodeHandler(object sender, ScannedBarcodeEventArgs args)
 		{
 			Console.WriteLine(args.ReadItem);
 		}

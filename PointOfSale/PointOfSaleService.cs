@@ -20,12 +20,12 @@ namespace PointOfSale.Domain
 			this.scannedItems = new List<Item>();
 		}
 
-		public event EventHandler<ScanEventArgs> ScanEventHandler;
+		public event EventHandler<ScannedBarcodeEventArgs> BarcodeEvent;
 
-		public void OnBarcode(string barcode)
+		public void OnBarcodeScan(string barcode)
 		{
 			var item = query.Read(barcode);
-			ScanEventHandler?.Invoke(this, new ScanEventArgs(item));
+			BarcodeEvent?.Invoke(this, new ScannedBarcodeEventArgs(item));
 			scannedItems.Add(item);
 		}
 

@@ -27,8 +27,8 @@ namespace PointOfSale.DomainUnitTests
 			// Arrange
 			var receiptService = new ReceiptService(stubFactory.Object, sut.Object, stubGenerator.Object);
 			var sale = new PointOfSaleService(registry, receiptService);
-			sale.ScanEventHandler += delegate { };
-			sale.OnBarcode(barcode);
+			sale.BarcodeEvent += delegate { };
+			sale.OnBarcodeScan(barcode);
 			var expected = new Receipt(transactionId, sale.ScannedItems);
 
 			stubGenerator.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
@@ -53,14 +53,14 @@ namespace PointOfSale.DomainUnitTests
 			string barcode = "123456";
 			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object, dummyGenerator.Object);
 			var sale = new PointOfSaleService(registry, receiptService);
-			var expected = new ScanEventArgs(registry.Read(barcode));
-			sale.ScanEventHandler += sut.Object.HandleScanEvent;
+			var expected = new ScannedBarcodeEventArgs(registry.Read(barcode));
+			sale.BarcodeEvent += sut.Object.BarcodeHandler;
 
 			// Act
-			sale.OnBarcode(barcode);
+			sale.OnBarcodeScan(barcode);
 
 			// Assert
-			sut.Verify(s => s.HandleScanEvent(sale, expected));
+			sut.Verify(s => s.BarcodeHandler(sale, expected));
 		}
 
 	}

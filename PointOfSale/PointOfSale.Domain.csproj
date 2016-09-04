@@ -57,7 +57,7 @@
     <Compile Include="TransactionIdGenerator.cs" />
     <Compile Include="NullObjectOrderFulFiller.cs" />
     <Compile Include="NullTransactionIdGenerator.cs" />
-    <Compile Include="ScanEventArgs.cs" />
+    <Compile Include="ScannedBarcodeEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -29,11 +29,11 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var sut = fixture.Create<PointOfSaleService>();
-			sut.ScanEventHandler += delegate { };
+			sut.BarcodeEvent += delegate { };
 			string emptyBarcode = "";
 
 			// Act
-			sut.OnBarcode(emptyBarcode);
+			sut.OnBarcodeScan(emptyBarcode);
 
 			// Assert
 			var expected = new decimal(0);
@@ -48,11 +48,11 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var sut = fixture.Create<PointOfSaleService>();
-			sut.ScanEventHandler += delegate { };
+			sut.BarcodeEvent += delegate { };
 			var expected = new decimal(price);
 
 			// Act
-			sut.OnBarcode(barcode);
+			sut.OnBarcodeScan(barcode);
 
 			// Assert
 			Assert.Equal(expected, sut.SubTotal, numOfDecimalPlaces);
@@ -66,11 +66,11 @@ namespace PointOfSale.DomainUnitTests
 			// Arrange
 			var query = fixture.Create<ScanBarcodeQuery>();
 			var sut = fixture.Create<PointOfSaleService>();
-			sut.ScanEventHandler += delegate { };
+			sut.BarcodeEvent += delegate { };
 			var expected = query.Read(barcode);
 
 			// Act
-			sut.OnBarcode(barcode);
+			sut.OnBarcodeScan(barcode);
 
 			// Assert
 			sut.ScannedItems.Should().Contain(expected);
@@ -85,7 +85,7 @@ namespace PointOfSale.DomainUnitTests
 			var stub = fixture.Freeze<Mock<TransactionIdGenerator>>();
 			var sut = fixture.Freeze<Mock<CompleteSaleCommand>>();
 			var sale = fixture.Create<PointOfSaleService>();
-			sale.ScanEventHandler += delegate { };
+			sale.BarcodeEvent += delegate { };
 			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
 
 			// Act
