@@ -3,7 +3,7 @@ namespace PointOfSale.Domain
 {
 	public interface ItemDisplay
 	{
-		void HandleScanEvent(object sender, ScanEventArgs args);
+		void BarcodeHandler(object sender, ScannedBarcodeEventArgs args);
 	}
 }
 
