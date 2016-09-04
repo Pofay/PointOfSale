@@ -27,7 +27,7 @@ namespace PointOfSale.DomainUnitTests
 			// Arrange
 			var receiptService = new ReceiptService(stubFactory.Object, sut.Object, stubGenerator.Object);
 			var sale = new PointOfSaleService(registry, receiptService);
-			sale.OnItemRead += delegate { };
+			sale.OnScan += delegate { };
 			sale.Scan(barcode);
 			var expected = new Receipt(transactionId, sale.ScannedItems);
 
@@ -54,7 +54,7 @@ namespace PointOfSale.DomainUnitTests
 			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object, dummyGenerator.Object);
 			var sale = new PointOfSaleService(registry, receiptService);
 			var expected = new ItemReadEventArgs(registry.Read(barcode));
-			sale.OnItemRead += sut.Object.HandleItemRead;
+			sale.OnScan += sut.Object.HandleItemRead;
 
 			// Act
 			sale.Scan(barcode);

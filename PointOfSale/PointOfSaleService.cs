@@ -10,7 +10,7 @@ namespace PointOfSale.Domain
 		private readonly ItemRegistryReader reader;
 		private readonly List<Item> scannedItems;
 
-		public event EventHandler<ItemReadEventArgs> OnItemRead;
+		public event EventHandler<ItemReadEventArgs> OnScan;
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IList<Item> ScannedItems { get { return scannedItems; } }
 
@@ -24,9 +24,8 @@ namespace PointOfSale.Domain
 		public void Scan(string barcode)
 		{
 			var item = reader.Read(barcode);
-			OnItemRead?.Invoke(this, new ItemReadEventArgs(item));
+			OnScan?.Invoke(this, new ItemReadEventArgs(item));
 			scannedItems.Add(item);
-
 		}
 
 		public void OnCompleteSale() // Should've received a Payment Parameter
