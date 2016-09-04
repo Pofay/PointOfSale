@@ -21,7 +21,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			fixture = new Fixture();
 			fixture.Customize(new AutoConfiguredMoqCustomization());
-			fixture.Customizations.Add(new TypeRelay(typeof(ItemRegistryReader), typeof(InMemoryItemRegistry)));
+			fixture.Customizations.Add(new TypeRelay(typeof(ScanBarcodeQuery), typeof(InMemoryItemRegistry)));
 		}
 
 		[Fact]
@@ -64,10 +64,10 @@ namespace PointOfSale.DomainUnitTests
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
 			// Arrange
-			var registry = fixture.Create<ItemRegistryReader>();
+			var query = fixture.Create<ScanBarcodeQuery>();
 			var sut = fixture.Create<PointOfSaleService>();
 			sut.OnScan += delegate { };
-			var expected = registry.Read(barcode);
+			var expected = query.Read(barcode);
 
 			// Act
 			sut.Scan(barcode);
@@ -83,7 +83,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var stub = fixture.Freeze<Mock<TransactionIdGenerator>>();
-			var sut = fixture.Freeze<Mock<OrderFulFiller>>();
+			var sut = fixture.Freeze<Mock<CompleteSaleCommand>>();
 			var sale = fixture.Create<PointOfSaleService>();
 			sale.OnScan += delegate { };
 			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
@@ -92,7 +92,7 @@ namespace PointOfSale.DomainUnitTests
 			sale.CompleteSale();
 
 			// Assert
-			sut.Verify(s => s.FulFillOrder(sale.ScannedItems));
+			sut.Verify(s => s.Execute(sale.ScannedItems));
 		}
 	}
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PointOfSale.Domain
 {
 
-	public class InMemoryItemRegistry : ItemRegistry, ScanItemCommand
+	public class InMemoryItemRegistry : ItemRegistry, ScanBarcodeQuery
 	{
 		Dictionary<string, Item> items;
 
