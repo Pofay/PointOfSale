@@ -2,18 +2,18 @@
 
 namespace PointOfSale.Domain
 {
-	public class ItemReadEventArgs : EventArgs
+	public class ScanEventArgs : EventArgs
 	{
 		public Item ReadItem { get; }
 
-		public ItemReadEventArgs(Item item)
+		public ScanEventArgs(Item item)
 		{
 			this.ReadItem = item;
 		}
 
 		public override bool Equals(object obj)
 		{
-			var other = obj as ItemReadEventArgs;
+			var other = obj as ScanEventArgs;
 			return other.ReadItem.Barcode.Equals(this.ReadItem.Barcode);
 		}
 	}

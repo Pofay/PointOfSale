@@ -89,7 +89,7 @@ namespace PointOfSale.DomainUnitTests
 			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
 
 			// Act
-			sale.OnCompleteSale();
+			sale.CompleteSale();
 
 			// Assert
 			sut.Verify(s => s.FulFillOrder(sale.ScannedItems));

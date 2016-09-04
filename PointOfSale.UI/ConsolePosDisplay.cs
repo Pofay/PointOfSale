@@ -14,7 +14,7 @@ namespace PointOfSale.UI
 			Console.WriteLine(receipt);
 		}
 
-		public void HandleItemRead(object sender, ItemReadEventArgs args)
+		public void HandleItemRead(object sender, ScanEventArgs args)
 		{
 			Console.WriteLine(args.ReadItem);
 		}

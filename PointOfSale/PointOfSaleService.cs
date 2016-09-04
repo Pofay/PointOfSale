@@ -10,7 +10,6 @@ namespace PointOfSale.Domain
 		private readonly ItemRegistryReader reader;
 		private readonly List<Item> scannedItems;
 
-		public event EventHandler<ItemReadEventArgs> OnScan;
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IList<Item> ScannedItems { get { return scannedItems; } }
 
@@ -21,14 +20,16 @@ namespace PointOfSale.Domain
 			this.scannedItems = new List<Item>();
 		}
 
+		public event EventHandler<ScanEventArgs> OnScan;
+
 		public void Scan(string barcode)
 		{
 			var item = reader.Read(barcode);
-			OnScan?.Invoke(this, new ItemReadEventArgs(item));
+			OnScan?.Invoke(this, new ScanEventArgs(item));
 			scannedItems.Add(item);
 		}
 
-		public void OnCompleteSale() // Should've received a Payment Parameter
+		public void CompleteSale() // Should've received a Payment Parameter
 		{
 			// Display ought to display on Change
 			// FulFillOrder(payment, ScannedItems) -> contains also the method for printing

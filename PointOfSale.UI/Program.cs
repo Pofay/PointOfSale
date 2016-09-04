@@ -40,7 +40,7 @@ namespace PointOfSale.UI
 							Console.Read();
 							break;
 						case "COMPLETE":
-							sale.OnCompleteSale();
+							sale.CompleteSale();
 							Console.Read();
 							break;
 						case "QUIT":
