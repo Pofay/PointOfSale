@@ -20,25 +20,23 @@ namespace PointOfSale.DomainUnitTests
 			int transactionId,
 			string barcode,
 			InMemoryItemRegistry registry,
-			[Frozen] Mock<ReceiptFactory> stubFactory,
 			Mock<TransactionIdGenerator> stubGenerator,
 			Mock<Display> sut)
 		{
 			// Arrange
-			var receiptService = new ReceiptService(stubFactory.Object, sut.Object, stubGenerator.Object);
-			var sale = new PointOfSaleService(registry, receiptService);
+			var sale = new PointOfSaleService(registry, stubGenerator.Object);
 			sale.BarcodeEvent += delegate { };
+			sale.CompleteSaleEvent += sut.Object.CompleteSaleHandler;
 			sale.OnBarcodeScan(barcode);
-			var expected = new Receipt(transactionId, sale.ScannedItems);
+			var expected = new CompleteSaleEventArgs(transactionId, sale.ScannedItems);
 
 			stubGenerator.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
-			stubFactory.Setup(s => s.CreateReceiptFrom(transactionId, sale.ScannedItems)).Returns(expected);
 
 			// Act
 			sale.OnCompleteSale();
 
 			// Assert
-			sut.Verify(s => s.DisplayReceipt(expected));
+			sut.Verify(s => s.CompleteSaleHandler(sale, expected));
 			sale.ScannedItems.Should().BeEmpty();
 		}
 
@@ -46,13 +44,11 @@ namespace PointOfSale.DomainUnitTests
 		public void ScannedItemIsDisplayed(
 			InMemoryItemRegistry registry,
 			[Frozen] Mock<Display> sut,
-			Mock<ReceiptFactory> dummyFactory,
 			Mock<TransactionIdGenerator> dummyGenerator)
 		{
 			// Arrange
 			string barcode = "123456";
-			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object, dummyGenerator.Object);
-			var sale = new PointOfSaleService(registry, receiptService);
+			var sale = new PointOfSaleService(registry, dummyGenerator.Object);
 			var expected = new ScannedBarcodeEventArgs(registry.Read(barcode));
 			sale.BarcodeEvent += sut.Object.BarcodeHandler;
 

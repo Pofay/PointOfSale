@@ -9,14 +9,15 @@ namespace PointOfSale.UI
 		{
 		}
 
-		public void DisplayReceipt(Receipt receipt)
-		{
-			Console.WriteLine(receipt);
-		}
-
 		public void BarcodeHandler(object sender, ScannedBarcodeEventArgs args)
 		{
 			Console.WriteLine(args.ReadItem);
+		}
+
+		public void CompleteSaleHandler(object sender, CompleteSaleEventArgs e)
+		{
+			var receipt = new Receipt(e.Id, e.Items);
+			Console.WriteLine(receipt);
 		}
 	}
 }

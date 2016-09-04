@@ -76,6 +76,8 @@ namespace PointOfSale.DomainUnitTests
 			sut.ScannedItems.Should().Contain(expected);
 		}
 
+
+		/*
 		[Theory]
 		[InlineData(11234)]
 		[InlineData(44556)]
@@ -93,7 +95,7 @@ namespace PointOfSale.DomainUnitTests
 
 			// Assert
 			sut.Verify(s => s.Execute(sale.ScannedItems));
-		}
+		}*/
 	}
 
 }

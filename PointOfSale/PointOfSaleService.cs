@@ -6,21 +6,22 @@ namespace PointOfSale.Domain
 {
 	public class PointOfSaleService
 	{
-		private readonly CompleteSaleCommand command;
 		private readonly ScanBarcodeQuery query;
 		private readonly List<Item> scannedItems;
+		private readonly TransactionIdGenerator generator;
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IList<Item> ScannedItems { get { return scannedItems; } }
 
-		public PointOfSaleService(ScanBarcodeQuery query, CompleteSaleCommand command)
+		public PointOfSaleService(ScanBarcodeQuery query, TransactionIdGenerator generator)
 		{
 			this.query = query;
-			this.command = command;
+			this.generator = generator;
 			this.scannedItems = new List<Item>();
 		}
 
 		public event EventHandler<ScannedBarcodeEventArgs> BarcodeEvent;
+		public event EventHandler<CompleteSaleEventArgs> CompleteSaleEvent;
 
 		public void OnBarcodeScan(string barcode)
 		{
@@ -31,9 +32,8 @@ namespace PointOfSale.Domain
 
 		public void OnCompleteSale() // Should've received a Payment Parameter
 		{
-			// Display ought to display on Change
-			// FulFillOrder(payment, ScannedItems) -> contains also the method for printing
-			command.Execute(ScannedItems.ToList());
+			int id = generator.GenerateTransactionId();
+			CompleteSaleEvent?.Invoke(this, new CompleteSaleEventArgs(id, ScannedItems.ToList()));
 			ScannedItems.Clear();
 		}
 	}

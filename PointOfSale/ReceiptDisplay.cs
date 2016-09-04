@@ -3,7 +3,7 @@ namespace PointOfSale.Domain
 {
 	public interface ReceiptDisplay
 	{
-		void DisplayReceipt(Receipt receipt);
+		void CompleteSaleHandler(object sender, CompleteSaleEventArgs e);
 	}
 }
 
