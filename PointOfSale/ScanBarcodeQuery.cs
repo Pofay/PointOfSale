@@ -1,7 +1,7 @@
 ﻿using System;
 namespace PointOfSale.Domain
 {
-	public interface ItemRegistryReader
+	public interface ScanBarcodeQuery
 	{
 		Item Read(string barcode);
 	}

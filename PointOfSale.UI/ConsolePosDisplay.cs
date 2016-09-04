@@ -11,12 +11,12 @@ namespace PointOfSale.UI
 
 		public void DisplayReceipt(Receipt receipt)
 		{
-			Console.WriteLine(receipt.ToString());
+			Console.WriteLine(receipt);
 		}
 
-		public void DisplayItem(Item item)
+		public void HandleScanEvent(object sender, ScanEventArgs args)
 		{
-			Console.WriteLine(item.ToString());
+			Console.WriteLine(args.ReadItem);
 		}
 	}
 }

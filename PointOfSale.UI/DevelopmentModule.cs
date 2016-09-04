@@ -21,9 +21,12 @@ namespace PointOfSale.UI
 			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
 			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
 
-			builder.RegisterType<NullObjectOrderRepository>().AsImplementedInterfaces();
+			builder.RegisterType<NullObjectOrderFulFiller>().AsImplementedInterfaces();
 			builder.RegisterType<NullTransactionIdGenerator>().AsImplementedInterfaces();
 			builder.RegisterType<ReceiptService>().AsImplementedInterfaces();
+
+			builder.RegisterType<PointOfSaleService>()
+				   .OnActivating(e => e.Instance.OnScan += e.Context.Resolve<ItemDisplay>().HandleScanEvent);
 			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 		}
 	}

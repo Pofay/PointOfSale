@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 namespace PointOfSale.Domain
 {
-	public class ReceiptService : OrderFulFiller
+	public class ReceiptService : CompleteSaleCommand
 	{
 		readonly ReceiptFactory factory;
 		readonly ReceiptDisplay display;
 		readonly TransactionIdGenerator generator;
-
 
 		public ReceiptService(ReceiptFactory factory, ReceiptDisplay display, TransactionIdGenerator generator)
 		{
@@ -17,7 +16,7 @@ namespace PointOfSale.Domain
 			this.display = display;
 		}
 
-		public void FulFillOrder(IEnumerable<Item> items)
+		public void Execute(IEnumerable<Item> items)
 		{
 			int id = generator.GenerateTransactionId();
 			display.DisplayReceipt(factory.CreateReceiptFrom(id, items));
