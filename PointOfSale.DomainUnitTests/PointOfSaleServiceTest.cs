@@ -29,6 +29,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var sut = fixture.Create<PointOfSaleService>();
+			sut.OnItemRead += delegate { };
 			string emptyBarcode = "";
 
 			// Act
@@ -47,6 +48,7 @@ namespace PointOfSale.DomainUnitTests
 		{
 			// Arrange
 			var sut = fixture.Create<PointOfSaleService>();
+			sut.OnItemRead += delegate { };
 			var expected = new decimal(price);
 
 			// Act
@@ -64,6 +66,7 @@ namespace PointOfSale.DomainUnitTests
 			// Arrange
 			var registry = fixture.Create<ItemRegistryReader>();
 			var sut = fixture.Create<PointOfSaleService>();
+			sut.OnItemRead += delegate { };
 			var expected = registry.Read(barcode);
 
 			// Act
@@ -82,6 +85,7 @@ namespace PointOfSale.DomainUnitTests
 			var stub = fixture.Freeze<Mock<TransactionIdGenerator>>();
 			var sut = fixture.Freeze<Mock<OrderFulFiller>>();
 			var sale = fixture.Create<PointOfSaleService>();
+			sale.OnItemRead += delegate { };
 			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
 
 			// Act
