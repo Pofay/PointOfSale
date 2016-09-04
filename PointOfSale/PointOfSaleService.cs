@@ -6,17 +6,17 @@ namespace PointOfSale.Domain
 {
 	public class PointOfSaleService
 	{
-		private readonly OrderFulFiller orderFulFiller;
-		private readonly ItemRegistryReader reader;
+		private readonly CompleteSaleCommand command;
+		private readonly ScanBarcodeQuery query;
 		private readonly List<Item> scannedItems;
 
 		public decimal SubTotal { get { return scannedItems.Sum(i => i.Price); } }
 		public IList<Item> ScannedItems { get { return scannedItems; } }
 
-		public PointOfSaleService(ItemRegistryReader reader, OrderFulFiller orderFulFiller)
+		public PointOfSaleService(ScanBarcodeQuery query, CompleteSaleCommand command)
 		{
-			this.reader = reader;
-			this.orderFulFiller = orderFulFiller;
+			this.query = query;
+			this.command = command;
 			this.scannedItems = new List<Item>();
 		}
 
@@ -24,7 +24,7 @@ namespace PointOfSale.Domain
 
 		public void Scan(string barcode)
 		{
-			var item = reader.Read(barcode);
+			var item = query.Read(barcode);
 			OnScan?.Invoke(this, new ScanEventArgs(item));
 			scannedItems.Add(item);
 		}
@@ -33,7 +33,7 @@ namespace PointOfSale.Domain
 		{
 			// Display ought to display on Change
 			// FulFillOrder(payment, ScannedItems) -> contains also the method for printing
-			orderFulFiller.FulFillOrder(ScannedItems.ToList());
+			command.Execute(ScannedItems.ToList());
 			ScannedItems.Clear();
 		}
 

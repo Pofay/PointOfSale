@@ -5,7 +5,7 @@ using PointOfSale.Domain;
 
 namespace PointOfSale.SqlDataAccess
 {
-	public class MySqlItemRegistry : ItemRegistryReader, IDisposable
+	public class MySqlItemRegistry : ScanBarcodeQuery, IDisposable
 	{
 		private readonly MySqlConnection connection;
 

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace PointOfSale.Domain
 {
-	public class NullObjectOrderFulFiller : OrderFulFiller
+	public class NullObjectOrderFulFiller : CompleteSaleCommand
 	{
 
-		public void FulFillOrder(IEnumerable<Item> orderItems)
+		public void Execute(IEnumerable<Item> orderItems)
 		{
 
 		}

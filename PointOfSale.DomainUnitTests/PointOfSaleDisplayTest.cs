@@ -54,13 +54,13 @@ namespace PointOfSale.DomainUnitTests
 			var receiptService = new ReceiptService(dummyFactory.Object, sut.Object, dummyGenerator.Object);
 			var sale = new PointOfSaleService(registry, receiptService);
 			var expected = new ScanEventArgs(registry.Read(barcode));
-			sale.OnScan += sut.Object.HandleItemRead;
+			sale.OnScan += sut.Object.HandleScanEvent;
 
 			// Act
 			sale.Scan(barcode);
 
 			// Assert
-			sut.Verify(s => s.HandleItemRead(sale, expected));
+			sut.Verify(s => s.HandleScanEvent(sale, expected));
 		}
 
 	}

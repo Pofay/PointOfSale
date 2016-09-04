@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace PointOfSale.Domain
 {
-	public interface OrderFulFiller
+	public interface CompleteSaleCommand
 	{
-		void FulFillOrder(IEnumerable<Item> orderItems);
+		void Execute(IEnumerable<Item> orderItems);
 
 	}
 }

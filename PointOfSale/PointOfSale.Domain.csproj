@@ -48,12 +48,12 @@
     <Compile Include="Display.cs" />
     <Compile Include="ReceiptFactory.cs" />
     <Compile Include="Receipt.cs" />
-    <Compile Include="ItemRegistryReader.cs" />
+    <Compile Include="ScanBarcodeQuery.cs" />
     <Compile Include="ItemRegistry.cs" />
     <Compile Include="ItemDisplay.cs" />
     <Compile Include="ReceiptService.cs" />
     <Compile Include="ReceiptDisplay.cs" />
-    <Compile Include="OrderFulFiller.cs" />
+    <Compile Include="CompleteSaleCommand.cs" />
     <Compile Include="TransactionIdGenerator.cs" />
     <Compile Include="NullObjectOrderFulFiller.cs" />
     <Compile Include="NullTransactionIdGenerator.cs" />
