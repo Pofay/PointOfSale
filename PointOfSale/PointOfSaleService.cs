@@ -24,7 +24,7 @@ namespace PointOfSale.Domain
 		public void Scan(string barcode)
 		{
 			var item = reader.Read(barcode);
-			OnItemRead(this, new ItemReadEventArgs(item));
+			OnItemRead?.Invoke(this, new ItemReadEventArgs(item));
 			scannedItems.Add(item);
 
 		}
