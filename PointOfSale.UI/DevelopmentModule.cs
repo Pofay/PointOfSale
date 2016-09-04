@@ -26,7 +26,7 @@ namespace PointOfSale.UI
 			builder.RegisterType<ReceiptService>().AsImplementedInterfaces();
 
 			builder.RegisterType<PointOfSaleService>()
-				   .OnActivating(e => e.Instance.OnScan += e.Context.Resolve<ItemDisplay>().HandleScanEvent);
+				   .OnActivating(e => e.Instance.BarcodeEvent += e.Context.Resolve<ItemDisplay>().HandleScanEvent);
 			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 		}
 	}

@@ -20,23 +20,22 @@ namespace PointOfSale.Domain
 			this.scannedItems = new List<Item>();
 		}
 
-		public event EventHandler<ScanEventArgs> OnScan;
+		public event EventHandler<ScanEventArgs> ScanEventHandler;
 
-		public void Scan(string barcode)
+		public void OnBarcode(string barcode)
 		{
 			var item = query.Read(barcode);
-			OnScan?.Invoke(this, new ScanEventArgs(item));
+			ScanEventHandler?.Invoke(this, new ScanEventArgs(item));
 			scannedItems.Add(item);
 		}
 
-		public void CompleteSale() // Should've received a Payment Parameter
+		public void OnCompleteSale() // Should've received a Payment Parameter
 		{
 			// Display ought to display on Change
 			// FulFillOrder(payment, ScannedItems) -> contains also the method for printing
 			command.Execute(ScannedItems.ToList());
 			ScannedItems.Clear();
 		}
-
 	}
 
 }
