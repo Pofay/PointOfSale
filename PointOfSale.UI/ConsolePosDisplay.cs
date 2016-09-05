@@ -1,7 +1,7 @@
 ﻿using System;
 using PointOfSale.Domain;
 
-namespace PointOfSale.UI
+namespace PointOfSale.ConsoleApp
 {
 	public class ConsolePosDisplay : Display
 	{

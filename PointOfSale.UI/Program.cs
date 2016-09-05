@@ -4,7 +4,7 @@ using Autofac;
 using PointOfSale.Domain;
 using PointOfSale.SqlDataAccess;
 
-namespace PointOfSale.UI
+namespace PointOfSale.ConsoleApp
 {
 	public class MainClass
 	{

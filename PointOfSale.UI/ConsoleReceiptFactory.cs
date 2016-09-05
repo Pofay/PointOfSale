@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using PointOfSale.Domain;
 
-namespace PointOfSale.UI
+namespace PointOfSale.ConsoleApp
 {
 	public class ConsoleReceiptFactory : ReceiptFactory
 	{
