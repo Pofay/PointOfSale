@@ -4,10 +4,6 @@ using PointOfSale.Domain;
 
 public partial class MainWindow : Gtk.Window, Display
 {
-	//TreeViewColumn itemBarcodeCol;
-	//TreeViewColumn itemNameCol;
-	//TreeViewColumn itemPriceCol;
-
 	private readonly PointOfSaleService service;
 	private readonly ReceiptFactory factory;
 	private readonly ListStore items;
@@ -61,7 +57,23 @@ public partial class MainWindow : Gtk.Window, Display
 	public void CompleteSaleHandler(object sender, CompleteSaleEventArgs e)
 	{
 		var receipt = factory.CreateReceiptFrom(e.Id, e.Items);
-		//this.ItemsView.Buffer.Text += "\n\n" + receipt.ToString();
+		PopupDialog(receipt);
+
+	}
+
+	private void PopupDialog(Receipt receipt)
+	{
+		using (var md = new MessageDialog(this,
+										  DialogFlags.DestroyWithParent,
+										  MessageType.Info,
+										  ButtonsType.Close,
+										  receipt.ToString()))
+		{
+			md.Run();
+			md.ShowAll();
+			md.Hide();
+		}
+
 	}
 
 	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
@@ -82,6 +94,6 @@ public partial class MainWindow : Gtk.Window, Display
 
 	protected void OnStartNewSale(object sender, EventArgs e)
 	{
-		//this.ItemsView.Buffer.Clear();
+		this.items.Clear();
 	}
 }
