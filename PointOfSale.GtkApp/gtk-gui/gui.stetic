@@ -87,7 +87,6 @@
                       <widget class="Gtk.Entry" id="ItemBarcodeField">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
-                        <property name="Text" translatable="yes">Enter Item Barcode Here</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">•</property>
                       </widget>
@@ -127,11 +126,11 @@
                 <property name="MemberName" />
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.TextView" id="ItemsView">
+                  <widget class="Gtk.TreeView" id="ScannedItemTable">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
-                    <property name="Text" translatable="yes" />
+                    <property name="SearchColumn">1</property>
                   </widget>
                 </child>
               </widget>

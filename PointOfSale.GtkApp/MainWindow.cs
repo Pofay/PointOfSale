@@ -4,9 +4,13 @@ using PointOfSale.Domain;
 
 public partial class MainWindow : Gtk.Window, Display
 {
+	//TreeViewColumn itemBarcodeCol;
+	//TreeViewColumn itemNameCol;
+	//TreeViewColumn itemPriceCol;
+
 	private readonly PointOfSaleService service;
 	private readonly ReceiptFactory factory;
-
+	private readonly ListStore items;
 
 	public MainWindow(PointOfSaleService service, ReceiptFactory factory)
 		: base(Gtk.WindowType.Toplevel)
@@ -14,19 +18,50 @@ public partial class MainWindow : Gtk.Window, Display
 		Build();
 		this.service = service;
 		this.factory = factory;
+		this.items = new ListStore(typeof(string), typeof(string), typeof(string));
 		service.BarcodeEvent += BarcodeHandler;
 		service.CompleteSaleEvent += CompleteSaleHandler;
+		SetupTreeViewData();
+	}
+
+	private void SetupTreeViewData()
+	{
+		var itemBarcodeCol = new TreeViewColumn();
+		var itemNameCol = new TreeViewColumn();
+		var itemPriceCol = new TreeViewColumn();
+
+		itemBarcodeCol.Title = "Barcode";
+		itemNameCol.Title = "Name";
+		itemPriceCol.Title = "Price";
+
+		var itemNameText = new CellRendererText();
+		var itemBarcodeText = new CellRendererText();
+		var itemPriceText = new CellRendererText();
+
+		itemBarcodeCol.PackEnd(itemBarcodeText, true);
+		itemNameCol.PackEnd(itemNameText, true);
+		itemPriceCol.PackEnd(itemPriceText, true);
+
+		itemBarcodeCol.AddAttribute(itemBarcodeText, "text", 0);
+		itemNameCol.AddAttribute(itemNameText, "text", 1);
+		itemPriceCol.AddAttribute(itemPriceText, "text", 2);
+
+		this.ScannedItemTable.AppendColumn(itemBarcodeCol);
+		this.ScannedItemTable.AppendColumn(itemNameCol);
+		this.ScannedItemTable.AppendColumn(itemPriceCol);
+
+		ScannedItemTable.Model = items;
 	}
 
 	public void BarcodeHandler(object sender, ScannedBarcodeEventArgs args)
 	{
-		this.ItemsView.Buffer.Text += "\n" + args.ReadItem.ToString();
+		items.AppendValues(args.ReadItem.Barcode, args.ReadItem.Name, args.ReadItem.Price.ToString());
 	}
 
 	public void CompleteSaleHandler(object sender, CompleteSaleEventArgs e)
 	{
 		var receipt = factory.CreateReceiptFrom(e.Id, e.Items);
-		this.ItemsView.Buffer.Text += "\n\n" + receipt.ToString();
+		//this.ItemsView.Buffer.Text += "\n\n" + receipt.ToString();
 	}
 
 	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
@@ -47,6 +82,6 @@ public partial class MainWindow : Gtk.Window, Display
 
 	protected void OnStartNewSale(object sender, EventArgs e)
 	{
-		this.ItemsView.Buffer.Clear();
+		//this.ItemsView.Buffer.Clear();
 	}
 }

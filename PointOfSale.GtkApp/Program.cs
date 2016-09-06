@@ -17,12 +17,15 @@ namespace PointOfSale.GtkApp
 			var installer = new DBInstaller();
 
 			installer.InstallDatabase(ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString);
+			using (container.BeginLifetimeScope())
+			{
+				Application.Init();
+				MainWindow win = container.Resolve<MainWindow>();
+				win.ShowAll();
+				Application.Run();
+			}
 
 
-			MainWindow win = container.Resolve<MainWindow>();
-
-			win.Show();
-			Application.Run();
 		}
 	}
 }

@@ -12,8 +12,6 @@ namespace PointOfSale.GtkApp
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-
-			Application.Init();
 			string connectionString = ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString;
 
 			builder.RegisterTypes(typeof(MySqlItemRegistry))

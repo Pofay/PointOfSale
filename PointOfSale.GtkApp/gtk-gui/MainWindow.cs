@@ -31,7 +31,7 @@ public partial class MainWindow
 
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 
-	private global::Gtk.TextView ItemsView;
+	private global::Gtk.TreeView ScannedItemTable;
 
 	private global::Gtk.HBox hbox6;
 
@@ -100,7 +100,6 @@ public partial class MainWindow
 		this.ItemBarcodeField = new global::Gtk.Entry();
 		this.ItemBarcodeField.CanFocus = true;
 		this.ItemBarcodeField.Name = "ItemBarcodeField";
-		this.ItemBarcodeField.Text = global::Mono.Unix.Catalog.GetString("Enter Item Barcode Here");
 		this.ItemBarcodeField.IsEditable = true;
 		this.ItemBarcodeField.InvisibleChar = '•';
 		this.hbox7.Add(this.ItemBarcodeField);
@@ -128,10 +127,11 @@ public partial class MainWindow
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-		this.ItemsView = new global::Gtk.TextView();
-		this.ItemsView.CanFocus = true;
-		this.ItemsView.Name = "ItemsView";
-		this.GtkScrolledWindow.Add(this.ItemsView);
+		this.ScannedItemTable = new global::Gtk.TreeView();
+		this.ScannedItemTable.CanFocus = true;
+		this.ScannedItemTable.Name = "ScannedItemTable";
+		this.ScannedItemTable.SearchColumn = 1;
+		this.GtkScrolledWindow.Add(this.ScannedItemTable);
 		this.vbox6.Add(this.GtkScrolledWindow);
 		global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox6[this.GtkScrolledWindow]));
 		w9.Position = 0;
