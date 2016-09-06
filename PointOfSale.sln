@@ -5,11 +5,13 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.Domain", "PointOfSale\PointOfSale.Domain.csproj", "{C5E40D39-8841-42CC-AAE4-CD5358355A1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.UI", "PointOfSale.UI\PointOfSale.UI.csproj", "{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.ConsoleApp", "PointOfSale.UI\PointOfSale.ConsoleApp.csproj", "{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.DomainUnitTests", "PointOfSale.DomainUnitTests\PointOfSale.DomainUnitTests.csproj", "{2AB7B01A-C499-4622-83D4-9AFE5218D98F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.SqlDataAccess", "PointOfSale.SqlDataAccess\PointOfSale.SqlDataAccess.csproj", "{16094C8E-B35B-47AA-A31B-16785964D48B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.GtkApp", "PointOfSale.GtkApp\PointOfSale.GtkApp.csproj", "{ACA8E0B1-5DB8-4B27-9D6A-FD51539E253F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{16094C8E-B35B-47AA-A31B-16785964D48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16094C8E-B35B-47AA-A31B-16785964D48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16094C8E-B35B-47AA-A31B-16785964D48B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACA8E0B1-5DB8-4B27-9D6A-FD51539E253F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACA8E0B1-5DB8-4B27-9D6A-FD51539E253F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACA8E0B1-5DB8-4B27-9D6A-FD51539E253F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACA8E0B1-5DB8-4B27-9D6A-FD51539E253F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

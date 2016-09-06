@@ -2,10 +2,11 @@
 using System.Configuration;
 using Autofac;
 using Autofac.Features.ResolveAnything;
+using Gtk;
 using PointOfSale.Domain;
 using PointOfSale.SqlDataAccess;
 
-namespace PointOfSale.ConsoleApp
+namespace PointOfSale.GtkApp
 {
 	public class ProductionModule : Module
 	{
@@ -18,11 +19,13 @@ namespace PointOfSale.ConsoleApp
 				   .WithParameter("connectionString", connectionString)
 				   .AsImplementedInterfaces();
 
-			builder.RegisterType<ConsolePosDisplay>().AsImplementedInterfaces();
-			builder.RegisterType<ConsoleReceiptFactory>().AsImplementedInterfaces();
+			builder.RegisterType<GtkReceiptFactory>()
+				   .AsImplementedInterfaces();
+			builder.RegisterType<NullTransactionIdGenerator>()
+				   .AsImplementedInterfaces();
+			builder.RegisterType<PointOfSaleService>();
 
 			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 		}
 	}
 }
-

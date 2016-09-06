@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{48E7DF1C-05E4-48F6-B103-F0E47E5B5302}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>PointOfSale.UI</RootNamespace>
+    <RootNamespace>PointOfSale.ConsoleApp</RootNamespace>
     <AssemblyName>PointOfSale.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

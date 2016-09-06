@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using PointOfSale.Domain;
 
-namespace PointOfSale.ConsoleApp
+namespace PointOfSale.GtkApp
 {
-	public class ConsoleReceiptFactory : ReceiptFactory
+	public class GtkReceiptFactory : ReceiptFactory
 	{
-		public ConsoleReceiptFactory()
+		public GtkReceiptFactory()
 		{
 		}
 
@@ -14,8 +14,6 @@ namespace PointOfSale.ConsoleApp
 		{
 			return new Receipt(transactionId, items);
 		}
-
-
 	}
 }
 

@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PointOfSale.SqlDataAccess</RootNamespace>
     <AssemblyName>PointOfSale.SqlDataAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
