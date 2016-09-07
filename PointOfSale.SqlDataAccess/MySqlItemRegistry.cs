@@ -33,18 +33,19 @@ namespace PointOfSale.SqlDataAccess
 		{
 			const string sql = "SELECT barcode, name, price FROM ITEM WHERE barcode = @barcode";
 
+			var adapter = new MySqlDataAdapter();
+			var table = new DataTable();
 			using (var cmd = new MySqlCommand(sql, connection))
 			{
 				cmd.Parameters.Add(new MySqlParameter("@barcode", barcode));
 
-				var adapter = new MySqlDataAdapter(cmd);
-				//	adapter.SelectCommand.CommandType = System.Data.CommandType.Text;
+				adapter.SelectCommand = cmd;
 				adapter.SelectCommand.CommandType = CommandType.Text;
-				var table = new DataTable();
 				adapter.Fill(table);
-				var row = table.Rows[0];
-				return new Item(row["barcode"].ToString(), row["name"].ToString(), double.Parse(row["price"].ToString()));
 			}
+			var row = table.Rows[0];
+			return new Item(row["barcode"].ToString(), row["name"].ToString(), double.Parse(row["price"].ToString()));
+
 		}
 
 		public void Dispose()
