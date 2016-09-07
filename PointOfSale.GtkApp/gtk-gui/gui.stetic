@@ -28,7 +28,12 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Start New Sale</property>
         <property name="ShortLabel" translatable="yes">Start New Sale</property>
-        <signal name="Activated" handler="OnStartNewSale" />
+        <signal name="Activated" handler="Empty" />
+      </action>
+      <action id="ActionsAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Actions</property>
+        <property name="ShortLabel" translatable="yes">Actions</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -42,11 +47,7 @@
         <child>
           <widget class="Gtk.MenuBar" id="menubar4">
             <property name="MemberName" />
-            <node name="__gtksharp_152_Stetic_Editor_ActionMenuBar" type="Menubar">
-              <node type="Menu" action="ActionsAction">
-                <node type="Menuitem" action="StartNewSaleAction" />
-              </node>
-            </node>
+            <node name="menubar4" type="Menubar" />
           </widget>
           <packing>
             <property name="Position">0</property>
