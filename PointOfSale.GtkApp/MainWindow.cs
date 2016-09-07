@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using GLib;
 using Gtk;
 using PointOfSale.Domain;
 
@@ -60,9 +62,30 @@ public partial class MainWindow : Gtk.Window, Display
 	{
 		this.ItemBarcodeField.Activated += delegate
 		{
-			service.OnBarcodeScan(ItemBarcodeField.Text);
+			try
+			{
+				service.OnBarcodeScan(ItemBarcodeField.Text);
+			}
+			catch (IndexOutOfRangeException e)
+			{
+				PopupErrorMessage(e);
+			};
 			ItemBarcodeField.Text = "";
 		};
+	}
+
+	private void PopupErrorMessage(IndexOutOfRangeException e)
+	{
+		using (var errorDialog = new MessageDialog(this,
+										  DialogFlags.DestroyWithParent,
+										  MessageType.Error,
+										  ButtonsType.Close,
+										  e.Message))
+		{
+			errorDialog.Run();
+			errorDialog.ShowAll();
+			errorDialog.Hide();
+		}
 	}
 
 	public void BarcodeHandler(object sender, ScannedBarcodeEventArgs args)
