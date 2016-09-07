@@ -15,12 +15,19 @@ public partial class MainWindow : Gtk.Window, Display
 		this.service = service;
 		this.factory = factory;
 		this.items = new ListStore(typeof(string), typeof(string), typeof(string));
-		service.BarcodeEvent += BarcodeHandler;
-		service.CompleteSaleEvent += CompleteSaleHandler;
-		SetupTreeViewData();
+		this.service.BarcodeEvent += BarcodeHandler;
+		this.service.CompleteSaleEvent += CompleteSaleHandler;
+
+		SetupWidgets();
 	}
 
-	private void SetupTreeViewData()
+	private void SetupWidgets()
+	{
+		SetupTableData();
+		SetupBarcodeFieldHandlers();
+	}
+
+	private void SetupTableData()
 	{
 		var itemBarcodeCol = new TreeViewColumn();
 		var itemNameCol = new TreeViewColumn();
@@ -49,6 +56,15 @@ public partial class MainWindow : Gtk.Window, Display
 		ScannedItemTable.Model = items;
 	}
 
+	private void SetupBarcodeFieldHandlers()
+	{
+		this.ItemBarcodeField.Activated += delegate
+		{
+			service.OnBarcodeScan(ItemBarcodeField.Text);
+			ItemBarcodeField.Text = "";
+		};
+	}
+
 	public void BarcodeHandler(object sender, ScannedBarcodeEventArgs args)
 	{
 		items.AppendValues(args.ReadItem.Barcode, args.ReadItem.Name, args.ReadItem.Price.ToString());
@@ -58,7 +74,7 @@ public partial class MainWindow : Gtk.Window, Display
 	{
 		var receipt = factory.CreateReceiptFrom(e.Id, e.Items);
 		PopupDialog(receipt);
-
+		this.items.Clear();
 	}
 
 	private void PopupDialog(Receipt receipt)
@@ -73,7 +89,6 @@ public partial class MainWindow : Gtk.Window, Display
 			md.ShowAll();
 			md.Hide();
 		}
-
 	}
 
 	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
@@ -90,10 +105,5 @@ public partial class MainWindow : Gtk.Window, Display
 	protected void OnScanButtonClick(object sender, EventArgs e)
 	{
 		service.OnBarcodeScan(this.ItemBarcodeField.Text);
-	}
-
-	protected void OnStartNewSale(object sender, EventArgs e)
-	{
-		this.items.Clear();
 	}
 }

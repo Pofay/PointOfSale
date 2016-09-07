@@ -17,6 +17,7 @@ namespace PointOfSale.GtkApp
 			var installer = new DBInstaller();
 
 			installer.InstallDatabase(ConfigurationManager.ConnectionStrings["pointofsale"].ConnectionString);
+
 			using (container.BeginLifetimeScope())
 			{
 				Application.Init();
