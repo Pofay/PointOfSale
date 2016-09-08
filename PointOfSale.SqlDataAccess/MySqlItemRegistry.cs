@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
 using PointOfSale.Domain;
@@ -33,18 +34,22 @@ namespace PointOfSale.SqlDataAccess
 		{
 			const string sql = "SELECT barcode, name, price FROM ITEM WHERE barcode = @barcode";
 
+			var adapter = new MySqlDataAdapter();
+			var table = new DataTable();
 			using (var cmd = new MySqlCommand(sql, connection))
 			{
 				cmd.Parameters.Add(new MySqlParameter("@barcode", barcode));
 
-				var adapter = new MySqlDataAdapter(cmd);
-				//	adapter.SelectCommand.CommandType = System.Data.CommandType.Text;
+				adapter.SelectCommand = cmd;
 				adapter.SelectCommand.CommandType = CommandType.Text;
-				var table = new DataTable();
 				adapter.Fill(table);
-				var row = table.Rows[0];
-				return new Item(row["barcode"].ToString(), row["name"].ToString(), double.Parse(row["price"].ToString()));
 			}
+			if (table.Rows[0] != null)
+				return new Item(table.Rows[0]["barcode"].ToString(),
+								table.Rows[0]["name"].ToString(),
+								double.Parse(table.Rows[0]["price"].ToString()));
+			else
+				throw new IndexOutOfRangeException();
 		}
 
 		public void Dispose()
