@@ -1,10 +1,6 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using Moq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Xunit;
 using PointOfSale.Domain;
 using Xunit;
 using Xunit.Extensions;
@@ -15,21 +11,15 @@ namespace PointOfSale.DomainUnitTests
 	{
 		int numOfDecimalPlaces = 1;
 
-		readonly Fixture fixture;
-
-		public PointOfSaleServiceTest()
-		{
-			fixture = new Fixture();
-			fixture.Customize(new AutoConfiguredMoqCustomization());
-			fixture.Customizations.Add(new TypeRelay(typeof(ScanBarcodeQuery), typeof(InMemoryItemRegistry)));
-		}
 
 		[Fact]
 		public void GetTotalPriceOnEmptyBarcodeReturns0Price()
 		{
 			// Arrange
-			var sut = fixture.Create<PointOfSaleService>();
-			sut.BarcodeEvent += delegate { };
+			var sut = new PointOfSaleServiceBuilder()
+				.WithQuery(new InMemoryItemRegistry())
+				.WithGenerator(new Mock<TransactionIdGenerator>().Object)
+				.Build();
 			string emptyBarcode = "";
 
 			// Act
@@ -47,8 +37,10 @@ namespace PointOfSale.DomainUnitTests
 		public void GetTotalPriceForOneItemReturnsCorrectResult(string barcode, double price)
 		{
 			// Arrange
-			var sut = fixture.Create<PointOfSaleService>();
-			sut.BarcodeEvent += delegate { };
+			var sut = new PointOfSaleServiceBuilder()
+				.WithQuery(new InMemoryItemRegistry())
+				.WithGenerator(new Mock<TransactionIdGenerator>().Object)
+				.Build();
 			var expected = new decimal(price);
 
 			// Act
@@ -64,10 +56,12 @@ namespace PointOfSale.DomainUnitTests
 		public void ItemWithRegisteredBarcodeIsStoredInsideScannedItems(string barcode)
 		{
 			// Arrange
-			var query = fixture.Create<ScanBarcodeQuery>();
-			var sut = fixture.Create<PointOfSaleService>();
-			sut.BarcodeEvent += delegate { };
-			var expected = query.Read(barcode);
+			var registry = new InMemoryItemRegistry();
+			var sut = new PointOfSaleServiceBuilder()
+				.WithQuery(registry)
+				.WithGenerator(new Mock<TransactionIdGenerator>().Object)
+				.Build();
+			var expected = registry.Read(barcode);
 
 			// Act
 			sut.OnBarcodeScan(barcode);
@@ -75,27 +69,6 @@ namespace PointOfSale.DomainUnitTests
 			// Assert
 			sut.ScannedItems.Should().Contain(expected);
 		}
-
-
-		/*
-		[Theory]
-		[InlineData(11234)]
-		[InlineData(44556)]
-		public void ServiceCreatesOrderOnCompleteSale(int transactionId)
-		{
-			// Arrange
-			var stub = fixture.Freeze<Mock<TransactionIdGenerator>>();
-			var sut = fixture.Freeze<Mock<CompleteSaleCommand>>();
-			var sale = fixture.Create<PointOfSaleService>();
-			sale.BarcodeEvent += delegate { };
-			stub.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
-
-			// Act
-			sale.OnCompleteSale();
-
-			// Assert
-			sut.Verify(s => s.Execute(sale.ScannedItems));
-		}*/
 	}
 
 }

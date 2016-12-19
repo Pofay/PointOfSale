@@ -1,11 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using Moq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Xunit;
 using PointOfSale.Domain;
+using Xunit;
 using Xunit.Extensions;
 
 namespace PointOfSale.DomainUnitTests
@@ -13,25 +10,21 @@ namespace PointOfSale.DomainUnitTests
 	public class PointOfSaleDisplayTest
 	{
 
-
-		[Theory, AutoConfiguredMoq]
-		[InlineAutoData(334456, "123456")]
-		public void CompleteSaleDisplaysReceiptAndClearsScannedItems(
-			int transactionId,
-			string barcode,
-			InMemoryItemRegistry registry,
-			Mock<TransactionIdGenerator> stubGenerator,
-			Mock<Display> sut)
+		[Theory]
+		[InlineData(334456, "123456")]
+		public void CompleteSaleDisplaysReceiptAndClearsScannedItems(int transactionId, string barcode)
 		{
 			// Arrange
-			var sale = new PointOfSaleService(registry, stubGenerator.Object);
-			sale.BarcodeEvent += delegate { };
-			sale.CompleteSaleEvent += sut.Object.CompleteSaleHandler;
+			var sut = new Mock<Display>();
+			var stubGenerator = new Mock<TransactionIdGenerator>();
+			stubGenerator.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
+			var sale = new PointOfSaleServiceBuilder()
+				.WithDisplay(sut.Object)
+				.WithQuery(new InMemoryItemRegistry())
+				.WithGenerator(stubGenerator.Object)
+				.Build();
 			sale.OnBarcodeScan(barcode);
 			var expected = new CompleteSaleEventArgs(transactionId, sale.ScannedItems);
-
-			stubGenerator.Setup(s => s.GenerateTransactionId()).Returns(transactionId);
-
 			// Act
 			sale.OnCompleteSale();
 
@@ -40,17 +33,19 @@ namespace PointOfSale.DomainUnitTests
 			sale.ScannedItems.Should().BeEmpty();
 		}
 
-		[Theory, AutoConfiguredMoq]
-		public void ScannedItemIsDisplayed(
-			InMemoryItemRegistry registry,
-			[Frozen] Mock<Display> sut,
-			Mock<TransactionIdGenerator> dummyGenerator)
+		[Fact]
+		public void ScannedItemIsDisplayed()
 		{
 			// Arrange
+			var registry = new InMemoryItemRegistry();
+			var sut = new Mock<Display>();
 			string barcode = "123456";
-			var sale = new PointOfSaleService(registry, dummyGenerator.Object);
+			var sale = new PointOfSaleServiceBuilder()
+				.WithQuery(new InMemoryItemRegistry())
+				.WithGenerator(new Mock<TransactionIdGenerator>().Object)
+				.WithDisplay(sut.Object)
+				.Build();
 			var expected = new ScannedBarcodeEventArgs(registry.Read(barcode));
-			sale.BarcodeEvent += sut.Object.BarcodeHandler;
 
 			// Act
 			sale.OnBarcodeScan(barcode);

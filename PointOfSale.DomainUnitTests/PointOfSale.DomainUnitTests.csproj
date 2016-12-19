@@ -64,6 +64,7 @@
     <Compile Include="AutoConfiguredMoqAttribute.cs" />
     <Compile Include="ItemRegistryTest.cs" />
     <Compile Include="PointOfSaleDisplayTest.cs" />
+    <Compile Include="PointOfSaleServiceBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PointOfSale\PointOfSale.Domain.csproj">
