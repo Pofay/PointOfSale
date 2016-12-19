@@ -5,6 +5,16 @@ public partial class MainWindow
 {
 	private global::Gtk.UIManager UIManager;
 
+	private global::Gtk.Action ActionAction;
+
+	private global::Gtk.Action CreateNewSaleAction;
+
+	private global::Gtk.Action ActionsAction;
+
+	private global::Gtk.Action StartNewSaleAction;
+
+	private global::Gtk.Action ActionsAction1;
+
 	private global::Gtk.VBox vbox3;
 
 	private global::Gtk.MenuBar menubar4;
@@ -35,6 +45,21 @@ public partial class MainWindow
 		// Widget MainWindow
 		this.UIManager = new global::Gtk.UIManager();
 		global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup("Default");
+		this.ActionAction = new global::Gtk.Action("ActionAction", global::Mono.Unix.Catalog.GetString("Action"), null, null);
+		this.ActionAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Action");
+		w1.Add(this.ActionAction, null);
+		this.CreateNewSaleAction = new global::Gtk.Action("CreateNewSaleAction", global::Mono.Unix.Catalog.GetString("Create New Sale"), null, null);
+		this.CreateNewSaleAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Create New Sale");
+		w1.Add(this.CreateNewSaleAction, null);
+		this.ActionsAction = new global::Gtk.Action("ActionsAction", global::Mono.Unix.Catalog.GetString("Actions"), null, null);
+		this.ActionsAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Actions");
+		w1.Add(this.ActionsAction, null);
+		this.StartNewSaleAction = new global::Gtk.Action("StartNewSaleAction", global::Mono.Unix.Catalog.GetString("Start New Sale"), null, null);
+		this.StartNewSaleAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Start New Sale");
+		w1.Add(this.StartNewSaleAction, null);
+		this.ActionsAction1 = new global::Gtk.Action("ActionsAction1", global::Mono.Unix.Catalog.GetString("Actions"), null, null);
+		this.ActionsAction1.ShortLabel = global::Mono.Unix.Catalog.GetString("Actions");
+		w1.Add(this.ActionsAction1, null);
 		this.UIManager.InsertActionGroup(w1, 0);
 		this.AddAccelGroup(this.UIManager.AccelGroup);
 		this.Name = "MainWindow";

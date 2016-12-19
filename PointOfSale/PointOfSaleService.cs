@@ -4,7 +4,8 @@ using System;
 
 namespace PointOfSale.Domain
 {
-	public class PointOfSaleService
+	public class PointOfSaleService // The code screams that it should be a controller or a presenter
+									// Not a service....
 	{
 		private readonly ScanBarcodeQuery query;
 		private readonly List<Item> scannedItems;
@@ -27,7 +28,7 @@ namespace PointOfSale.Domain
 		{
 			var item = query.Read(barcode);
 			BarcodeEvent?.Invoke(this, new ScannedBarcodeEventArgs(item));
-			scannedItems.Add(item);
+			ScannedItems.Add(item);
 		}
 
 		public void OnCompleteSale() // Should've received a Payment Parameter

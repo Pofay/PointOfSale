@@ -44,12 +44,22 @@ namespace PointOfSale.SqlDataAccess
 				adapter.SelectCommand.CommandType = CommandType.Text;
 				adapter.Fill(table);
 			}
-			if (table.Rows[0] != null)
+			return Test(barcode, table);
+		}
+
+		private Item Test(string barcode, DataTable table)
+		{
+			try
+			{
 				return new Item(table.Rows[0]["barcode"].ToString(),
-								table.Rows[0]["name"].ToString(),
-								double.Parse(table.Rows[0]["price"].ToString()));
-			else
-				throw new IndexOutOfRangeException();
+						table.Rows[0]["name"].ToString(),
+						double.Parse(table.Rows[0]["price"].ToString()));
+
+			}
+			catch (IndexOutOfRangeException e)
+			{
+				throw new IndexOutOfRangeException("Item with barcode: " + barcode + " does not exist");
+			}
 		}
 
 		public void Dispose()
